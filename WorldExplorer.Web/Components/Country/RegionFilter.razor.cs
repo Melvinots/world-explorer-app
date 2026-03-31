@@ -11,6 +11,7 @@ namespace WorldExplorer.Web.Components.Country
         // -------------------------
         private ElementReference _filterRef;
         private bool _isOpen = false;
+        private bool _isDisposed = false;
         private readonly List<Region> _regions = Enum.GetValues<Region>().ToList();
         private DotNetObjectReference<RegionFilter>? _dotNetRef;
 
@@ -38,6 +39,7 @@ namespace WorldExplorer.Web.Components.Country
 
         public void Dispose()
         {
+            _isDisposed = true;
             _dotNetRef?.Dispose();
         }
 
@@ -59,8 +61,9 @@ namespace WorldExplorer.Web.Components.Country
         [JSInvokable]
         public void CloseDropdown()
         {
+            if (_isDisposed) return;
             _isOpen = false;
-            StateHasChanged();
+            InvokeAsync(StateHasChanged);
         }
     }
 }

@@ -1,9 +1,13 @@
 ﻿window.registerClickOutside = (element, dotNetRef) => {
-    document.addEventListener('click', (e) => {
+    const handler = (e) => {
         if (!element.contains(e.target)) {
-            dotNetRef.invokeMethodAsync('CloseDropdown');
+            dotNetRef.invokeMethodAsync('CloseDropdown')
+                .catch(() => { });
         }
-    });
+    };
+    document.addEventListener('click', handler);
+
+    return () => document.removeEventListener('click', handler);
 };
 
 window.registerScrollListener = (dotNetRef) => {
