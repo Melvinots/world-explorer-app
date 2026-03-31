@@ -4,7 +4,7 @@ using WorldExplorer.Domain.Enums;
 
 namespace WorldExplorer.Web.Components.Country
 {
-    public partial class RegionFilter : IDisposable
+    public partial class RegionFilter : IAsyncDisposable
     {
         // -------------------------
         // Fields
@@ -37,9 +37,17 @@ namespace WorldExplorer.Web.Components.Country
             await JS.InvokeVoidAsync("registerClickOutside", _filterRef, _dotNetRef);
         }
 
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
+            if (_isDisposed) return;
             _isDisposed = true;
+
+            try
+            {
+                await JS.InvokeVoidAsync("unregisterClickOutside", _filterRef);
+            }
+            catch { }
+
             _dotNetRef?.Dispose();
         }
 
@@ -62,6 +70,7 @@ namespace WorldExplorer.Web.Components.Country
         public void CloseDropdown()
         {
             if (_isDisposed) return;
+
             _isOpen = false;
             InvokeAsync(StateHasChanged);
         }
