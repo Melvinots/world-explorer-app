@@ -17,7 +17,7 @@ namespace WorldExplorer.Web.Services
         // -------------------------
         // Properties
         // -------------------------
-        public string Theme { get; private set; } = "light";
+        public string Theme { get; private set; } = "dark";
 
         // -------------------------
         // Public Methods
@@ -25,12 +25,12 @@ namespace WorldExplorer.Web.Services
         public async Task InitializeAsync()
         {
             var saved = await _js.InvokeAsync<string?>("localStorage.getItem", "theme");
-            Theme = saved ?? "light";
+            Theme = saved ?? "dark";
         }
 
         public async Task Toggle()
         {
-            Theme = Theme == "light" ? "dark" : "light";
+            Theme = Theme == "dark" ? "light" : "dark";
             await PersistThemeAsync();
             await ApplyThemeAsync();
         }

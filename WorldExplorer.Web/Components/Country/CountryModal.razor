@@ -21,7 +21,10 @@
                     <div class="modal-flag">
                         @if (_country.Flags?.Png is not null)
                         {
-                            <img src="@_country.Flags.Png" alt="@_country.Name?.Common flag" />
+                            <img src="https://flagcdn.com/w160/@(_country.Cca2?.ToLower()).png"
+                                 alt="@_country.Name?.Common flag"
+                                 loading="lazy"
+                                 onerror="this.onerror=null; this.src='/images/flag-placeholder.png';" />
                         }
                     </div>
                     <div class="modal-title-group">
