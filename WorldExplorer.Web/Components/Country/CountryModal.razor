@@ -1,0 +1,136 @@
+﻿@* CountryModal.razor *@
+
+@inject ICountryService CountryService
+
+@if (_isVisible)
+{
+    <div class="modal-overlay" @onclick="Close">
+        <div class="modal-container" @onclick:stopPropagation>
+
+            @if (_isLoading)
+            {
+                <div class="modal-loading">
+                    <div class="modal-spinner"></div>
+                    <p>Loading details...</p>
+                </div>
+            }
+            else if (_country is not null)
+            {
+                <!-- Header -->
+                <div class="modal-header">
+                    <div class="modal-flag">
+                        @if (_country.Flags?.Png is not null)
+                        {
+                            <img src="@_country.Flags.Png" alt="@_country.Name?.Common flag" />
+                        }
+                    </div>
+                    <div class="modal-title-group">
+                        <h2 class="modal-country-name">@_country.Name?.Common</h2>
+                        <p class="modal-official-name">@_country.Name?.Official</p>
+                    </div>
+                    <button class="modal-close" @onclick="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body">
+                    <!-- Left column -->
+                    <div class="modal-col">
+                        <div class="modal-row">
+                            <span class="modal-label">Capital</span>
+                            <span class="modal-value">@(_country.Capital?.FirstOrDefault() ?? "N/A")</span>
+                        </div>
+                        <div class="modal-row">
+                            <span class="modal-label">Region</span>
+                            <span class="modal-value">@_country.Region</span>
+                        </div>
+                        <div class="modal-row">
+                            <span class="modal-label">Subregion</span>
+                            <span class="modal-value">@(_country.Subregion ?? "N/A")</span>
+                        </div>
+                        <div class="modal-row">
+                            <span class="modal-label">Population</span>
+                            <span class="modal-value">@FormatHelper.FormatPopulation(_country.Population)</span>
+                        </div>
+                        <div class="modal-row">
+                            <span class="modal-label">Area</span>
+                            <span class="modal-value">@(_country.Area.HasValue ? $"{_country.Area.Value:N0} km²" : "N/A")</span>
+                        </div>
+                        <div class="modal-row">
+                            <span class="modal-label">Landlocked</span>
+                            <span class="modal-value">@(_country.Landlocked ? "Yes" : "No")</span>
+                        </div>
+                    </div>
+
+                    <!-- Right column -->
+                    <div class="modal-col">
+                        <div class="modal-row">
+                            <span class="modal-label">Code</span>
+                            <span class="modal-value">@_country.Cca2 / @_country.Cca3</span>
+                        </div>
+                        <div class="modal-row">
+                            <span class="modal-label">Currencies</span>
+                            <span class="modal-value">
+                                @if (_country.Currencies is not null)
+                                {
+                                    @string.Join(", ", _country.Currencies.Values.Select(c => $"{c.Name} ({c.Symbol})"))
+                                }
+                                else
+                                {
+                                    @("N/A")
+                                }
+                            </span>
+                        </div>
+                        <div class="modal-row">
+                            <span class="modal-label">Languages</span>
+                            <span class="modal-value">
+                                @if (_country.Languages is not null)
+                                {
+                                    @string.Join(", ", _country.Languages.Values)
+                                }
+                                else
+                                {
+                                    @("N/A")
+                                }
+                            </span>
+                        </div>
+                        <div class="modal-row">
+                            <span class="modal-label">Timezones</span>
+                            <span class="modal-value">@(_country.Timezones?.FirstOrDefault() ?? "N/A")</span>
+                        </div>
+                        <div class="modal-row">
+                            <span class="modal-label">UN Member</span>
+                            <span class="modal-value">@(_country.UnMember ? "Yes" : "No")</span>
+                        </div>
+                        <div class="modal-row">
+                            <span class="modal-label">Flag</span>
+                            <span class="modal-value flag-emoji">@_country.Flag</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Maps footer -->
+                @if (_country.Maps?.GoogleMaps is not null)
+                {
+                    <div class="modal-footer">
+                        <a href="@_country.Maps.GoogleMaps" target="_blank" class="maps-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="1.8"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                                <circle cx="12" cy="9" r="2.5" />
+                            </svg>
+                            View on Google Maps
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}

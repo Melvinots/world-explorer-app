@@ -1,0 +1,87 @@
+﻿/* CountryCard.razor.css */
+
+.country-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+    .country-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 32px var(--card-shadow);
+        border-color: var(--accent);
+    }
+
+/* Header: code + name */
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2px;
+}
+
+.country-code {
+    background-color: var(--code-bg);
+    color: var(--text-heading);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    padding: 5px 9px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    line-height: 1;
+}
+
+.country-name {
+    color: var(--text-heading);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* Capital */
+.capital {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 0 0 10px;
+}
+
+/* Footer */
+.card-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.badge {
+    display: inline-block;
+    background-color: var(--badge-bg);
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    width: fit-content;
+    letter-spacing: 0.03em;
+}
+
+.population {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+    .population svg {
+        width: 15px;
+        height: 15px;
+        color: var(--text-placeholder);
+        flex-shrink: 0;
+    }

@@ -1,0 +1,36 @@
+﻿@* RegionFilter.razor *@
+
+<div class="region-filter" @ref="_filterRef">
+    <button class="filter-btn" @onclick="ToggleDropdown">
+        <span>@SelectedRegion.ToDisplayName()</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round"
+             class="chevron @(_isOpen ? "open" : "")">
+            <polyline points="6 9 12 15 18 9" />
+        </svg>
+    </button>
+
+    @if (_isOpen)
+    {
+        <div class="dropdown">
+            @foreach (var region in _regions)
+            {
+                <button class="dropdown-item @(SelectedRegion == region ? "active" : "")"
+                        @onclick="() => SelectRegion(region)">
+                    <span>@region.ToDisplayName()</span>
+                    @if (SelectedRegion == region)
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2.5"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                    }
+                </button>
+            }
+        </div>
+    }
+</div>
+
+

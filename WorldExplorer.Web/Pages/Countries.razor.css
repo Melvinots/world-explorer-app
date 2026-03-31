@@ -1,0 +1,149 @@
+﻿/* Countries.razor.css */
+
+.dashboard-header {
+    background-color: var(--bg-primary);
+    padding: 32px 36px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.globe-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--accent);
+    flex-shrink: 0;
+    stroke-width: 1.6;
+}
+
+.dashboard-title {
+    color: var(--text-heading);
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+}
+
+.dashboard-subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 400;
+    margin: 4px 0 16px;
+    line-height: 1.5;
+}
+
+.country-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.search-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+    .search-row ::deep .search-box {
+        flex: 1;
+        max-width: 420px;
+    }
+
+.showing-label {
+    color: var(--text-muted);
+    font-size: 13px;
+    white-space: nowrap;
+    margin-right: auto;
+}
+
+.skeleton-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.skeleton-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.skeleton-box {
+    background: linear-gradient( 90deg, var(--card-border) 25%, var(--nav-hover-bg) 50%, var(--card-border) 75% );
+    background-size: 200% 100%;
+    border-radius: 6px;
+    animation: shimmer 1.5s infinite;
+}
+
+    .skeleton-box.small {
+        width: 40px;
+        height: 28px;
+    }
+
+    .skeleton-box.medium {
+        width: 120px;
+        height: 16px;
+    }
+
+    .skeleton-box.thin {
+        width: 80px;
+        height: 14px;
+    }
+
+    .skeleton-box.tiny {
+        width: 60px;
+        height: 12px;
+    }
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    gap: 12px;
+    grid-column: 1 / -1;
+}
+
+    .empty-state svg {
+        width: 48px;
+        height: 48px;
+        color: var(--text-placeholder);
+    }
+
+.empty-title {
+    color: var(--text-heading);
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.empty-subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}

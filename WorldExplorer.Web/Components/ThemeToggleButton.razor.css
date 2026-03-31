@@ -1,0 +1,35 @@
+﻿/* ThemeToggleButton.razor.css */
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    background-color: var(--search-bg);
+    color: var(--accent);
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+    .theme-toggle:hover {
+        background-color: var(--nav-active-bg);
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    .theme-toggle:active {
+        transform: scale(0.92);
+    }
+
+    .theme-toggle svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.4s ease;
+    }
+
+    .theme-toggle:hover svg {
+        transform: rotate(20deg);
+    }

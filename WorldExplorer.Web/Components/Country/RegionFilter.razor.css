@@ -1,0 +1,102 @@
+﻿/* RegionFilter.razor.css */
+
+.region-filter {
+    position: relative;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Trigger button */
+.filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--search-bg);
+    border: 1px solid var(--search-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text-body);
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.2s ease;
+    min-width: 130px;
+    justify-content: space-between;
+}
+
+    .filter-btn:hover {
+        border-color: var(--accent);
+    }
+
+.chevron {
+    width: 14px;
+    height: 14px;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+    .chevron.open {
+        transform: rotate(180deg);
+    }
+
+/* Dropdown */
+.dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 100%;
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 6px;
+    z-index: 100;
+    box-shadow: 0 8px 24px var(--card-shadow);
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 9px 12px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-body);
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.15s ease;
+    gap: 24px;
+}
+
+    .dropdown-item:hover {
+        background-color: var(--nav-hover-bg);
+    }
+
+    .dropdown-item.active {
+        background-color: var(--nav-hover-bg);
+        color: var(--text-heading);
+    }
+
+    .dropdown-item svg {
+        width: 14px;
+        height: 14px;
+        color: var(--accent);
+        flex-shrink: 0;
+    }
