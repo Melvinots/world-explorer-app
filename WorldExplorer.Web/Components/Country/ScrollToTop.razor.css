@@ -15,9 +15,8 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 20px var(--accent-glow), 0 2px 8px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     z-index: 999;
-    animation: fadeInUp 0.3s ease;
 }
 
     .scroll-top-btn:hover {
@@ -33,15 +32,3 @@
         width: 18px;
         height: 18px;
     }
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}

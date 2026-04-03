@@ -1,6 +1,6 @@
 ﻿@* RegionFilter.razor *@
 
-<div class="region-filter" @ref="_filterRef">
+<div class="region-filter" tabindex="0" @onfocusout="OnFocusOut">
     <button class="filter-btn" @onclick="ToggleDropdown">
         <span>@SelectedRegion.ToDisplayName()</span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
