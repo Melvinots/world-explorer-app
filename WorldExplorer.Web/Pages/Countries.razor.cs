@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using WorldExplorer.Domain.Enums;
 using WorldExplorer.Web.Components.Country;
-using WorldExplorer.Web.Services;
+using WorldExplorer.Web.Services.Country;
 
 namespace WorldExplorer.Web.Pages
 {

@@ -1,0 +1,22 @@
+using Microsoft.AspNetCore.Components;
+using WorldExplorer.Web.Services.Theme;
+
+namespace WorldExplorer.Web.Components
+{
+    public partial class ThemeToggleButton
+    {
+        // -------------------------
+        // Injections
+        // -------------------------
+        [Inject] private IThemeService ThemeService { get; set; } = default!;
+
+        // -------------------------
+        // Event Handlers
+        // -------------------------
+        private async Task ToggleTheme()
+        {
+            Console.WriteLine($"Toggle called, current theme: {ThemeService.Theme}");
+            await ThemeService.Toggle();
+        }
+    }
+}

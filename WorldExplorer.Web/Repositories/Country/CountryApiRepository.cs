@@ -1,4 +1,4 @@
-﻿namespace WorldExplorer.Web.Repositories
+﻿namespace WorldExplorer.Web.Repositories.Country
 {
     public class CountryApiRepository : ICountryRepository
     {

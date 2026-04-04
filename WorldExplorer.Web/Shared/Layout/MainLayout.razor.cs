@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using WorldExplorer.Web.Services;
+using WorldExplorer.Web.Services.Theme;
 
 namespace WorldExplorer.Web.Shared.Layout
 {

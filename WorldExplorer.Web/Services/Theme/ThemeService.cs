@@ -1,6 +1,6 @@
 ﻿using Microsoft.JSInterop;
 
-namespace WorldExplorer.Web.Services
+namespace WorldExplorer.Web.Services.Theme
 {
     public class ThemeService : IThemeService
     {

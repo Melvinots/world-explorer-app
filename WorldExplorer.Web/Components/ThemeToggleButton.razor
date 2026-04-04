@@ -1,7 +1,5 @@
 ﻿@* ThemeToggleButton.razor *@
 
-@inject IThemeService ThemeService
-
 <button class="theme-toggle" @onclick="ToggleTheme" title="Toggle theme">
     @if (ThemeService.Theme == "light")
     {
@@ -31,10 +29,3 @@
     }
 </button>
 
-@code {
-    private async Task ToggleTheme()
-    {
-        Console.WriteLine($"Toggle called, current theme: {ThemeService.Theme}");
-        await ThemeService.Toggle();
-    }
-}

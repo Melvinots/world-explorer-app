@@ -1,4 +1,4 @@
-﻿namespace WorldExplorer.Web.Services
+﻿namespace WorldExplorer.Web.Services.Country
 {
     public interface ICountryService
     {

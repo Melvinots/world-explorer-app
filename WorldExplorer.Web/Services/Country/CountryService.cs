@@ -1,17 +1,17 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using WorldExplorer.Web.Repositories;
+using WorldExplorer.Web.Repositories.Country;
 
-namespace WorldExplorer.Web.Services
+namespace WorldExplorer.Web.Services.Country
 {
     public class CountryService : ICountryService
     {
-        private readonly ICountryRepository _repo;
+        private readonly ICountryRepository _countryRepository;
         private readonly IMemoryCache _cache;
         private const string CacheKey = "countries";
 
         public CountryService(ICountryRepository repo, IMemoryCache cache)
         {
-            _repo = repo;
+            _countryRepository = repo;
             _cache = cache;
         }
 
@@ -20,7 +20,7 @@ namespace WorldExplorer.Web.Services
             if (_cache.TryGetValue(CacheKey, out List<CountryModel>? cached))
                 return cached!;
 
-            var countries = await _repo.GetCountryListAsync();
+            var countries = await _countryRepository.GetCountryListAsync();
             var sorted = countries.OrderBy(c => c.Name?.Common).ToList();
 
             _cache.Set(CacheKey, sorted, TimeSpan.FromHours(1));
@@ -29,7 +29,7 @@ namespace WorldExplorer.Web.Services
 
         public async Task<CountryModel?> GetCountryByNameAsync(string name)
         {
-            return await _repo.GetCountryByNameAsync(name);
+            return await _countryRepository.GetCountryByNameAsync(name);
         }
             
     }

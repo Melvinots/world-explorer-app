@@ -1,4 +1,4 @@
-﻿namespace WorldExplorer.Web.Services
+﻿namespace WorldExplorer.Web.Services.Theme
 {
     public interface IThemeService
     {
