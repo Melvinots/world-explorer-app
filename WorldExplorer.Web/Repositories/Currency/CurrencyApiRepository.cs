@@ -1,4 +1,5 @@
-﻿using static System.Net.WebRequestMethods;
+﻿using System.Buffers.Text;
+using static System.Net.WebRequestMethods;
 
 namespace WorldExplorer.Web.Repositories.Currency
 {
@@ -20,14 +21,24 @@ namespace WorldExplorer.Web.Repositories.Currency
                 .ToList();
         }
 
-        public Task<ConversionResult?> ConvertAsync(string fromCurrency, string toCurrency, decimal amount = 1)
+        public async Task<ConversionResult?> ConvertAsync(string fromCurrency, string toCurrency, decimal amount = 1)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(fromCurrency) || string.IsNullOrWhiteSpace(toCurrency))
+                return null;
+
+            return await _http.GetFromJsonAsync<ConversionResult>(
+                $"latest?from={fromCurrency}&to={toCurrency}&amount={amount}"
+            );
         }
 
-        public Task<HistoricalRatesResult?> GetHistoricalRatesAsync(string fromCurrency, string toCurrency, DateOnly startDate)
+        public async Task<HistoricalRatesResult?> GetHistoricalRatesAsync(string fromCurrency, string toCurrency, DateOnly startDate)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(fromCurrency) || string.IsNullOrWhiteSpace(toCurrency))
+                return null;
+
+            return await _http.GetFromJsonAsync<HistoricalRatesResult>(
+                $"{startDate:yyyy-MM-dd}..?from={fromCurrency}&to={toCurrency}"
+            );
         }
     }
 }

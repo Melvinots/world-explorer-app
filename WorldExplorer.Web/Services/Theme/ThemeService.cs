@@ -7,24 +7,27 @@ namespace WorldExplorer.Web.Services.Theme
         // -------------------------
         // Fields
         // -------------------------
-        private readonly IJSRuntime _js;
+        private readonly IJSRuntime JS;
 
         // -------------------------
         // Constructor
         // -------------------------
-        public ThemeService(IJSRuntime js) => _js = js;
+        public ThemeService(IJSRuntime js) => JS = js;
 
         // -------------------------
         // Properties
         // -------------------------
         public string Theme { get; private set; } = "dark";
+        public bool IsDarkMode => Theme == "dark";
+
+        public event Action? OnThemeChanged;
 
         // -------------------------
         // Public Methods
         // -------------------------
         public async Task InitializeAsync()
         {
-            var saved = await _js.InvokeAsync<string?>("localStorage.getItem", "theme");
+            var saved = await JS.InvokeAsync<string?>("localStorage.getItem", "theme");
             Theme = saved ?? "dark";
         }
 
@@ -33,15 +36,16 @@ namespace WorldExplorer.Web.Services.Theme
             Theme = Theme == "dark" ? "light" : "dark";
             await PersistThemeAsync();
             await ApplyThemeAsync();
+            OnThemeChanged?.Invoke();
         }
 
         // -------------------------
         // Helpers
         // -------------------------
         private async Task PersistThemeAsync()
-            => await _js.InvokeVoidAsync("localStorage.setItem", "theme", Theme);
+            => await JS.InvokeVoidAsync("localStorage.setItem", "theme", Theme);
 
         private async Task ApplyThemeAsync()
-            => await _js.InvokeVoidAsync("document.documentElement.setAttribute", "data-theme", Theme);
+            => await JS.InvokeVoidAsync("document.documentElement.setAttribute", "data-theme", Theme);
     }
 }

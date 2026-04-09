@@ -5,69 +5,138 @@
 @using Align = MudBlazor.Align
 @using Variant = MudBlazor.Variant
 
-<PageTitle>Currency Converter</PageTitle>
+<MudThemeProvider Theme="_myTheme" IsDarkMode="ThemeService.IsDarkMode" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-<MudText Typo="Typo.h4" Class="mb-4">Currency Converter</MudText>
+<PageTitle>Currency Converter</PageTitle>
 
 @if (_isLoadingCurrencies)
 {
-    <MudProgressLinear Indeterminate="true" Class="mb-4" />
+    @* ─── Converter Card Skeleton ─── *@
+    <MudCard Class="mb-6 pa-2" Elevation="0" Style="border: 1px solid var(--card-border); border-radius: 16px;">
+        <MudCardContent Class="pa-6">
+            <MudSkeleton SkeletonType="SkeletonType.Text" Width="180px" Height="32px" Class="mb-6" />
+            <MudGrid Spacing="3">
+                <MudItem xs="12" sm="3">
+                    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="56px" Style="border-radius: 12px;" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="56px" Style="border-radius: 12px;" />
+                </MudItem>
+                <MudItem xs="12" sm="1" Class="d-flex align-center justify-center">
+                    <MudSkeleton SkeletonType="SkeletonType.Circle" Width="40px" Height="40px" />
+                </MudItem>
+                <MudItem xs="12" sm="3">
+                    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="56px" Style="border-radius: 12px;" />
+                </MudItem>
+                <MudItem xs="12" sm="2">
+                    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="56px" Style="border-radius: 12px;" />
+                </MudItem>
+            </MudGrid>
+
+            @* ─── Result Skeleton ─── *@
+            <MudPaper Class="mt-6 pa-6 d-flex flex-column align-center justify-center"
+                        Elevation="0"
+                        Style="border-radius: 16px; background: var(--nav-active-bg); border: 1px solid var(--card-border);">
+                <MudSkeleton SkeletonType="SkeletonType.Text" Width="160px" Height="18px" Class="mb-2" />
+                <MudSkeleton SkeletonType="SkeletonType.Text" Width="220px" Height="56px" Class="mb-2" />
+                <MudSkeleton SkeletonType="SkeletonType.Text" Width="140px" Height="18px" />
+            </MudPaper>
+
+        </MudCardContent>
+    </MudCard>
+
+    @* ─── Chart Card Skeleton ─── *@
+@*     <MudCard Elevation="0" Style="border: 1px solid var(--card-border); border-radius: 16px;">
+        <MudCardContent Class="pa-6">
+            <MudSkeleton SkeletonType="SkeletonType.Text" Width="140px" Height="32px" Class="mb-6" />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="300px" Style="border-radius: 12px;" />
+        </MudCardContent>
+    </MudCard> *@
 }
 else
 {
     @* ─── Converter Card ─── *@
-    <MudCard Class="mb-6">
-        <MudCardHeader>
-            <CardHeaderContent>
-                <MudText Typo="Typo.h6">Convert</MudText>
-            </CardHeaderContent>
-        </MudCardHeader>
-        <MudCardContent>
-            <MudGrid>
+    <MudCard Class="mb-6 pa-2" Elevation="0" Style="border: 1px solid var(--card-border); border-radius: 16px;">
+        <MudCardContent Class="pa-6">
+
+            @* ─── Title ─── *@
+            <MudText Typo="Typo.h6" Class="mb-6 d-flex align-center gap-2" Style="font-weight: 600; letter-spacing: -0.5px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     fill="none" stroke="var(--accent)" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round"
+                     style="width: 22px; height: 22px; flex-shrink: 0;">
+                    <line x1="12" y1="1" x2="12" y2="23" />
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+                Currency Converter
+            </MudText>
+
+            @* ─── Inputs ─── *@
+            <MudGrid Spacing="3" Class="align-center">
                 <MudItem xs="12" sm="3">
                     <MudNumericField @bind-Value="_amount"
+                                     @bind-Value:after="RecalculateAsync"
                                      Label="Amount"
                                      Variant="Variant.Outlined"
-                                     Min="0"
+                                     Min="1"
                                      Format="F2"
-                                     FullWidth="true" />
+                                     FullWidth="true"
+                                     Style="border-radius: 12px;" />
                 </MudItem>
                 <MudItem xs="12" sm="3">
                     <MudSelect @bind-Value="_fromCurrency"
+                               @bind-Value:after="ResetConversion"
                                Label="From"
                                Variant="Variant.Outlined"
-                               FullWidth="true">
+                               FullWidth="true"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Disabled="_isConverting">
                         @foreach (var currency in _currencies)
                         {
                             <MudSelectItem Value="@currency.Code">@currency.ToString()</MudSelectItem>
                         }
                     </MudSelect>
                 </MudItem>
+
+                @* ─── Swap Button ─── *@
                 <MudItem xs="12" sm="1" Class="d-flex align-center justify-center">
                     <MudIconButton Icon="@Icons.Material.Filled.SwapHoriz"
                                    Color="Color.Primary"
-                                   OnClick="SwapCurrencies" />
+                                   Variant="Variant.Outlined"
+                                   Style="border-radius: 50%; border: 1px solid var(--card-border);"
+                                   OnClick="SwapCurrencies"
+                                   Disabled="_isConverting" />
                 </MudItem>
+
                 <MudItem xs="12" sm="3">
                     <MudSelect @bind-Value="_toCurrency"
+                               @bind-Value:after="ResetConversion"
                                Label="To"
                                Variant="Variant.Outlined"
-                               FullWidth="true">
+                               FullWidth="true"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Disabled="_isConverting">
                         @foreach (var currency in _currencies)
                         {
                             <MudSelectItem Value="@currency.Code">@currency.ToString()</MudSelectItem>
                         }
                     </MudSelect>
                 </MudItem>
+
                 <MudItem xs="12" sm="2" Class="d-flex align-center">
                     <MudButton Variant="Variant.Filled"
                                Color="Color.Primary"
                                FullWidth="true"
+                               Size="Size.Large"
+                               Style="border-radius: 12px; height: 56px; font-weight: 600; letter-spacing: 0.5px;"
                                OnClick="ConvertAsync"
                                Disabled="_isConverting">
                         @if (_isConverting)
                         {
-                            <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Color="Color.Surface" />
                         }
                         else
                         {
@@ -77,23 +146,35 @@ else
                 </MudItem>
             </MudGrid>
 
-            @if (_conversionResult is not null)
+            @* ─── Result ─── *@
+            @if(_conversionResult != null)
             {
-                <MudDivider Class="my-4" />
-                <MudText Typo="Typo.h5" Align="Align.Center">
-                    @_amount.ToString("F2") @_fromCurrency
-                    <MudText Typo="Typo.h5" Inline="true" Color="Color.Secondary">=</MudText>
-                    @_conversionResult.ConvertedAmount.ToString("F4") @_toCurrency
-                </MudText>
-                <MudText Typo="Typo.caption" Align="Align.Center" Class="mt-1" Color="Color.Default">
-                    Rate as of @_conversionResult.Date
-                </MudText>
+                <MudPaper Class="mt-6 pa-6 d-flex flex-column align-center justify-center"
+                            Elevation="0"
+                            Style="border-radius: 16px;
+                            background: var(--nav-active-bg);
+                            border: 1px solid var(--accent);">
+                    <MudText Typo="Typo.caption"
+                                Style="color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; font-weight: 600;">
+                        @_amount.ToString("F2") @_fromCurrency equals
+                    </MudText>
+                    <MudText Typo="Typo.h3"
+                                Style="color: var(--accent); font-weight: 700; letter-spacing: -1px; margin: 4px 0;">
+                        @(_conversionResult.ConvertedAmount == 0 ? "0.0000" : _conversionResult.ConvertedAmount.ToString("F4"))
+                        <MudText Typo="Typo.h5" Inline="true" Style="color: var(--text-body); font-weight: 400;">
+                            @_toCurrency
+                        </MudText>
+                    </MudText>
+                    <MudText Typo="Typo.caption" Style="color: var(--text-muted); margin-top: 4px;">
+                        @(_conversionResult.Date == "--/--" ? "Hit convert to get the latest rate" : $"Rate as of {_conversionResult.Date}")
+                    </MudText>
+                </MudPaper>
             }
         </MudCardContent>
     </MudCard>
 
     @* ─── Historical Chart Card ─── *@
-    <MudCard>
+    @* <MudCard>
         <MudCardHeader>
             <CardHeaderContent>
                 <MudText Typo="Typo.h6">Historical Rates</MudText>
@@ -135,5 +216,5 @@ else
                 </MudText>
             }
         </MudCardContent>
-    </MudCard>
+    </MudCard> *@
 }

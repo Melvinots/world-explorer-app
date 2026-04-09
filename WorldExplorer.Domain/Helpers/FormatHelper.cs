@@ -17,5 +17,12 @@ namespace WorldExplorer.Domain.Helpers
             Region.All => "All Regions",
             _ => region.ToString()
         };
+
+        public static string ToKeyString(this CacheKey key) => key switch
+        {
+            CacheKey.Currencies => "currencies",
+            CacheKey.Countries => "countries",
+            _ => key.ToString().ToLower()
+        };
     }
 }
