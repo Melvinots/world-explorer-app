@@ -1,3 +1,4 @@
+using ApexCharts;
 using MudBlazor.Services;
 using WorldExplorer.Web;
 using WorldExplorer.Web.Repositories.Country;
@@ -17,7 +18,7 @@ builder.Services.AddRazorComponents()
     {
         options.DetailedErrors = true;
     });
-
+builder.Services.AddApexCharts();
 builder.Services.AddMudServices();
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<IThemeService, ThemeService>();

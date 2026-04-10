@@ -9,15 +9,17 @@ namespace WorldExplorer.Web.Pages
 {
     public partial class Currencies : IDisposable
     {
+        #region Injects
         [Inject] private ICurrencyService CurrencyService { get; set; } = default!;
         [Inject] private IThemeService ThemeService { get; set; } = default!;
+        #endregion
 
+        #region Fields
         private List<CurrencyModel> _currencies = new();
         private string _fromCurrency = "USD";
         private string _toCurrency = "PHP";
         private decimal _amount = 1;
         private List<RateDataPoint> _dataPoints = new();
-        private string _selectedRange = "1Y";
         private decimal _baseRate = 0;
         private ConversionResult? _conversionResult = new ConversionResult
         {
@@ -26,44 +28,64 @@ namespace WorldExplorer.Web.Pages
             Date = "--/--",
             Rates = new Dictionary<string, decimal> { { "PHP", 0 } }
         };
+        #endregion
 
+        #region State
         private bool _isLoadingCurrencies = true;
         private bool _isConverting = true;
         private bool _isLoadingChart = false;
+        #endregion
 
-        private readonly Dictionary<string, DateOnly> _dateRanges = new()
-        {
-            { "1M", DateOnly.FromDateTime(DateTime.Today.AddMonths(-1)) },
-            { "3M", DateOnly.FromDateTime(DateTime.Today.AddMonths(-3)) },
-            { "6M", DateOnly.FromDateTime(DateTime.Today.AddMonths(-6)) },
-            { "1Y", DateOnly.FromDateTime(DateTime.Today.AddYears(-1)) },
-            { "5Y", DateOnly.FromDateTime(DateTime.Today.AddYears(-5)) },
-        };
-
+        #region Chart Options
         private ApexChartOptions<RateDataPoint> _chartOptions = new()
         {
             Chart = new Chart
             {
                 Toolbar = new Toolbar { Show = false },
                 Zoom = new Zoom { Enabled = false },
+                Background = "transparent",
                 Width = "100%",
+                ForeColor = "var(--text-muted)",
             },
             Stroke = new Stroke { Curve = Curve.Smooth, Width = new List<int> { 2 } },
             Tooltip = new Tooltip { X = new TooltipX { Format = "dd MMM yyyy" } },
-            Xaxis = new XAxis { Type = XAxisType.Datetime },
+            Xaxis = new XAxis
+            {
+                Type = XAxisType.Datetime,
+                Labels = new XAxisLabels { Style = new AxisLabelStyle { Colors = "var(--text-muted)" } }
+            },
+            Yaxis = new List<YAxis>
+        {
+            new YAxis
+            {
+                Labels = new YAxisLabels { Style = new AxisLabelStyle { Colors = "var(--text-muted)" } }
+            }
+        },
+            Grid = new Grid { BorderColor = "var(--card-border)" },
+            Theme = new Theme { Mode = Mode.Dark }
         };
+        #endregion
 
+        #region Lifecycle
         protected override async Task OnInitializedAsync()
         {
+            ThemeService.OnThemeChanged += StateHasChanged;
             _currencies = await CurrencyService.GetCurrenciesAsync();
             await ConvertAsync();
             _isLoadingCurrencies = false;
         }
 
+        public void Dispose()
+        {
+            ThemeService.OnThemeChanged -= StateHasChanged;
+        }
+        #endregion
+
+        #region Actions
         private async Task ConvertAsync()
         {
             _isConverting = true;
-            
+
             if (_fromCurrency == _toCurrency)
             {
                 await Task.Delay(700);
@@ -93,6 +115,17 @@ namespace WorldExplorer.Web.Pages
             await LoadChartAsync();
         }
 
+        private void SwapCurrencies()
+        {
+            if (_fromCurrency == _toCurrency)
+                return;
+
+            (_fromCurrency, _toCurrency) = (_toCurrency, _fromCurrency);
+            ResetConversion();
+        }
+        #endregion
+
+        #region Helpers
         private void RecalculateAsync()
         {
             if (_baseRate == 0 || _conversionResult is null)
@@ -117,40 +150,14 @@ namespace WorldExplorer.Web.Pages
         private async Task LoadChartAsync()
         {
             _isLoadingChart = true;
-            var startDate = _dateRanges[_selectedRange];
+            var startDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1));
             var result = await CurrencyService.GetHistoricalRatesAsync(_fromCurrency, _toCurrency, startDate);
             _dataPoints = result?.ToDataPoints(_toCurrency) ?? new();
             _isLoadingChart = false;
         }
-
-        private async Task SelectRangeAsync(string range)
-        {
-            _selectedRange = range;
-            if (_dataPoints.Any())
-                await LoadChartAsync();
-        }
-
-        private void SwapCurrencies()
-        {
-            if (_fromCurrency == _toCurrency)
-                return;
-
-            (_fromCurrency, _toCurrency) = (_toCurrency, _fromCurrency);
-            ResetConversion();
-        }
-
+        #endregion
 
         #region Theme Management
-        protected override void OnInitialized()
-        {
-            ThemeService.OnThemeChanged += StateHasChanged;
-        }
-
-        public void Dispose()
-        {
-            ThemeService.OnThemeChanged -= StateHasChanged;
-        }
-
         private MudTheme _myTheme = new MudTheme()
         {
             PaletteLight = new PaletteLight()

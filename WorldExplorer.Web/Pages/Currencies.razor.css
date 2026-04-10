@@ -1,1 +1,11 @@
-﻿
+﻿.mud-card {
+    width: 100% !important;
+}
+
+.apexcharts-canvas {
+    width: 100% !important;
+}
+
+.apexcharts-svg {
+    width: 100% !important;
+}

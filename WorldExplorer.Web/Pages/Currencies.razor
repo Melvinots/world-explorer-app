@@ -49,12 +49,21 @@
     </MudCard>
 
     @* ─── Chart Card Skeleton ─── *@
-@*     <MudCard Elevation="0" Style="border: 1px solid var(--card-border); border-radius: 16px;">
-        <MudCardContent Class="pa-6">
-            <MudSkeleton SkeletonType="SkeletonType.Text" Width="140px" Height="32px" Class="mb-6" />
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="100%" Height="300px" Style="border-radius: 12px;" />
+    <MudCard Class="pa-2" Elevation="0" Style="border: 1px solid var(--card-border); border-radius: 16px; width: 100%;">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <div class="d-flex align-center" style="gap: 8px;">
+                    <MudSkeleton SkeletonType="SkeletonType.Text" Width="140px" Height="24px" />
+                    <MudSkeleton SkeletonType="SkeletonType.Text" Width="70px" Height="16px" />
+                </div>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent Class="pa-0 px-2">
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle"
+                         Width="100%" Height="280px"
+                         Style="border-radius: 12px;" />
         </MudCardContent>
-    </MudCard> *@
+    </MudCard>
 }
 else
 {
@@ -174,47 +183,54 @@ else
     </MudCard>
 
     @* ─── Historical Chart Card ─── *@
-    @* <MudCard>
+    <MudCard Class="pa-2" Elevation="0" Style="border: 1px solid var(--card-border); border-radius: 16px; width: 100%;">
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6">Historical Rates</MudText>
+                <MudText Typo="Typo.h6" Style="font-weight: 600; letter-spacing: -0.5px; color: var(--text-heading);">
+                    Historical Rates
+                    <MudText Typo="Typo.caption" Style="color: var(--text-muted); margin-left: 8px;">
+                        Past 1 Year
+                    </MudText>
+                </MudText>
             </CardHeaderContent>
-            <CardHeaderActions>
-                <MudButtonGroup Variant="Variant.Outlined" Size="Size.Small">
-                    @foreach (var range in _dateRanges)
-                    {
-                        <MudButton Color="@(_selectedRange == range.Key ? Color.Primary : Color.Default)"
-                                   OnClick="() => SelectRangeAsync(range.Key)">
-                            @range.Key
-                        </MudButton>
-                    }
-                </MudButtonGroup>
-            </CardHeaderActions>
         </MudCardHeader>
-        <MudCardContent>
+        <MudCardContent Class="pa-0 px-2">
             @if (_isLoadingChart)
             {
-                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="300px" />
+                <MudSkeleton SkeletonType="SkeletonType.Rectangle"
+                             Width="100%" Height="280px"
+                             Style="border-radius: 12px;" />
             }
             else if (_dataPoints.Any())
             {
-                <ApexChart TItem="RateDataPoint"
-                           Title="@($"{_fromCurrency} to {_toCurrency}")"
-                           Options="_chartOptions">
-                    <ApexPointSeries TItem="RateDataPoint"
-                                     Items="_dataPoints"
-                                     SeriesType="SeriesType.Line"
-                                     Name="@($"{_fromCurrency}/{_toCurrency}")"
-                                     XValue="@(e => e.Date.ToString("yyyy-MM-dd"))"
-                                     YValue="@(e => (decimal)e.Rate)" />
-                </ApexChart>
+                <div style="width: 100%; overflow: hidden;">
+                    <ApexChart TItem="RateDataPoint"
+                               Title="@($"{_fromCurrency} to {_toCurrency}")"
+                               Options="_chartOptions"
+                               Height="280">
+                        <ApexPointSeries TItem="RateDataPoint"
+                                         Items="_dataPoints"
+                                         SeriesType="SeriesType.Line"
+                                         Name="@($"{_fromCurrency}/{_toCurrency}")"
+                                         XValue="@(e => e.Date.ToString("yyyy-MM-dd"))"
+                                         YValue="@(e => (decimal)e.Rate)" />
+                    </ApexChart>
+                </div>
             }
             else
             {
-                <MudText Align="Align.Center" Color="Color.Default" Class="py-8">
-                    Select currencies and convert to load the chart.
-                </MudText>
+                <div class="d-flex flex-column align-center justify-center py-12" style="gap: 8px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                         fill="none" stroke="var(--text-muted)" stroke-width="1.5"
+                         stroke-linecap="round" stroke-linejoin="round"
+                         style="width: 40px; height: 40px;">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                    </svg>
+                    <MudText Align="Align.Center" Style="color: var(--text-muted);">
+                        Convert a currency pair to load the chart
+                    </MudText>
+                </div>
             }
         </MudCardContent>
-    </MudCard> *@
+    </MudCard>
 }
