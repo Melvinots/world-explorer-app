@@ -1,6 +1,7 @@
 ﻿using ApexCharts;
 using Microsoft.AspNetCore.Components;
 using WorldExplorer.Web.Services.Currency;
+using WorldExplorer.Web.Services.Theme;
 
 namespace WorldExplorer.Web.Components.Currency
 {
@@ -8,6 +9,28 @@ namespace WorldExplorer.Web.Components.Currency
     {
         #region Injects
         [Inject] private ICurrencyService CurrencyService { get; set; } = default!;
+        [Inject] private IThemeService ThemeService { get; set; } = default!;
+        #endregion
+
+        #region Lifecycle
+        protected override void OnInitialized()
+        {
+            ThemeService.OnThemeChanged += OnThemeChangedHandler;
+        }
+
+        private void OnThemeChangedHandler()
+        {
+            _chartOptions.Theme = new Theme
+            {
+                Mode = ThemeService.IsDarkMode ? Mode.Dark : Mode.Light
+            };
+            InvokeAsync(StateHasChanged);
+        }
+
+        public void Dispose()
+        {
+            ThemeService.OnThemeChanged -= OnThemeChangedHandler;
+        }
         #endregion
 
         #region Parameters

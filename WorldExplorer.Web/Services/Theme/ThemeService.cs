@@ -18,8 +18,9 @@ namespace WorldExplorer.Web.Services.Theme
         // Properties
         // -------------------------
         public string Theme { get; private set; } = "dark";
+        public bool IsDarkMode => Theme == "dark";
 
-        public event Func<Task>? OnThemeChanged;
+        public event Action? OnThemeChanged;
 
         // -------------------------
         // Public Methods
@@ -32,29 +33,11 @@ namespace WorldExplorer.Web.Services.Theme
 
         public async Task Toggle()
         {
-            Theme = Theme == "dark" ? "light" : "dark";
-            await PersistThemeAsync();
-            await ApplyThemeAsync();
-
-            if (OnThemeChanged is not null)
-            {
-                // Wait for ALL subscribers to finish
-                await Task.WhenAll(
-                    OnThemeChanged.GetInvocationList()
-                                  .Cast<Func<Task>>()
-                                  .Select(f => f.Invoke())
-                );
-            }
-
+            // JS handles the visual change instantly
+            // Blazor just syncs its state after
+            var newTheme = await JS.InvokeAsync<string>("toggleTheme");
+            Theme = newTheme;
+            OnThemeChanged?.Invoke();
         }
-
-        // -------------------------
-        // Helpers
-        // -------------------------
-        private async Task PersistThemeAsync()
-            => await JS.InvokeVoidAsync("localStorage.setItem", "theme", Theme);
-
-        private async Task ApplyThemeAsync()
-            => await JS.InvokeVoidAsync("document.documentElement.setAttribute", "data-theme", Theme);
     }
 }

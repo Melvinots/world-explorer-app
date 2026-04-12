@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
 using WorldExplorer.Web.Components.Currency;
 using WorldExplorer.Web.Services.Currency;
-using WorldExplorer.Web.Services.Theme;
 
 namespace WorldExplorer.Web.Pages
 {
@@ -24,7 +22,6 @@ namespace WorldExplorer.Web.Pages
         #region Lifecycle
         protected override async Task OnInitializedAsync()
         {
-            await base.OnInitializedAsync();
             _currencies = await CurrencyService.GetCurrenciesAsync();
             _isLoadingCurrencies = false;
         }

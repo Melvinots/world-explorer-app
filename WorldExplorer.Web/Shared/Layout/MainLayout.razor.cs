@@ -9,21 +9,14 @@ namespace WorldExplorer.Web.Shared.Layout
     {
         [Inject] private IThemeService ThemeService { get; set; } = default!;
 
-        public bool IsDarkMode => ThemeService.Theme == "dark";
-
         protected override void OnInitialized()
         {
-            ThemeService.OnThemeChanged += OnThemeChangedHandler;
-        }
-
-        private async Task OnThemeChangedHandler()
-        {
-            await InvokeAsync(StateHasChanged);
+            ThemeService.OnThemeChanged += StateHasChanged;
         }
 
         public void Dispose()
         {
-            ThemeService.OnThemeChanged -= OnThemeChangedHandler;
+            ThemeService.OnThemeChanged -= StateHasChanged;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
