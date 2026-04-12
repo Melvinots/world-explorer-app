@@ -11,10 +11,19 @@ namespace WorldExplorer.Web.Shared.Layout
 
         public bool IsDarkMode => ThemeService.Theme == "dark";
 
-        protected override Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             ThemeService.OnThemeChanged += OnThemeChangedHandler;
-            return Task.CompletedTask;
+        }
+
+        private async Task OnThemeChangedHandler()
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+
+        public void Dispose()
+        {
+            ThemeService.OnThemeChanged -= OnThemeChangedHandler;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -23,16 +32,6 @@ namespace WorldExplorer.Web.Shared.Layout
 
             await ThemeService.InitializeAsync();
             await InvokeAsync(StateHasChanged);
-        }
-
-        private void OnThemeChangedHandler()
-        {
-            InvokeAsync(StateHasChanged);
-        }
-
-        public void Dispose()
-        {
-            ThemeService.OnThemeChanged -= OnThemeChangedHandler;
         }
 
         #region Theme

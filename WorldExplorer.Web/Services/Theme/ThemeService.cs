@@ -19,7 +19,7 @@ namespace WorldExplorer.Web.Services.Theme
         // -------------------------
         public string Theme { get; private set; } = "dark";
 
-        public event Action? OnThemeChanged;
+        public event Func<Task>? OnThemeChanged;
 
         // -------------------------
         // Public Methods
@@ -35,7 +35,17 @@ namespace WorldExplorer.Web.Services.Theme
             Theme = Theme == "dark" ? "light" : "dark";
             await PersistThemeAsync();
             await ApplyThemeAsync();
-            OnThemeChanged?.Invoke();
+
+            if (OnThemeChanged is not null)
+            {
+                // Wait for ALL subscribers to finish
+                await Task.WhenAll(
+                    OnThemeChanged.GetInvocationList()
+                                  .Cast<Func<Task>>()
+                                  .Select(f => f.Invoke())
+                );
+            }
+
         }
 
         // -------------------------

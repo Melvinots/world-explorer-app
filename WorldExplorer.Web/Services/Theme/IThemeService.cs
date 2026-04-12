@@ -2,7 +2,7 @@
 {
     public interface IThemeService
     {
-        event Action? OnThemeChanged;
+        event Func<Task>? OnThemeChanged;
         string Theme { get; }
         Task InitializeAsync();
         Task Toggle();

@@ -13,14 +13,14 @@ namespace WorldExplorer.Web.Components
             return Task.CompletedTask;
         }
 
-        private void OnThemeChangedHandler()
+        private async Task OnThemeChangedHandler()
         {
-            InvokeAsync(StateHasChanged);
+            await InvokeAsync(StateHasChanged);
         }
 
         public virtual void Dispose()
         {
-            ThemeService.OnThemeChanged -= StateHasChanged;
+            ThemeService.OnThemeChanged -= OnThemeChangedHandler;
         }
     }
 }
