@@ -1,0 +1,31 @@
+﻿.title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    color: var(--accent);
+    flex-shrink: 0;
+    stroke-width: 1.6;
+}
+
+.dashboard-title {
+    color: var(--text-heading);
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+}
+
+.dashboard-subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 400;
+    margin: 4px 0 16px;
+    line-height: 1.5;
+}

@@ -7,6 +7,7 @@
     background-color: var(--sidebar-bg);
     border-right: 1px solid var(--sidebar-border);
     padding: 0;
+    position: relative;
     width: 240px;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
@@ -126,6 +127,38 @@
     .nav-scrollable {
         display: none;
         padding: 4px 10px 12px;
+    }
+
+    .nav-toggle-input:checked ~ .nav-scrollable {
+        display: block;
+    }
+}
+@media (max-width: 640px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background-color: var(--sidebar-bg);
+    }
+
+    .nav-toggle-label {
+        display: flex;
+    }
+
+    .nav-scrollable {
+        display: none;
+        padding: 4px 10px 12px;
+        /* Overlay instead of pushing content */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 99;
+        background-color: var(--sidebar-bg);
+        border-bottom: 1px solid var(--sidebar-border);
+        box-shadow: 0 8px 24px var(--card-shadow);
     }
 
     .nav-toggle-input:checked ~ .nav-scrollable {

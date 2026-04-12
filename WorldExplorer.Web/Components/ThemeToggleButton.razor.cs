@@ -15,7 +15,6 @@ namespace WorldExplorer.Web.Components
         // -------------------------
         private async Task ToggleTheme()
         {
-            Console.WriteLine($"Toggle called, current theme: {ThemeService.Theme}");
             await ThemeService.Toggle();
         }
     }

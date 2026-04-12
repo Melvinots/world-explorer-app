@@ -18,7 +18,6 @@ namespace WorldExplorer.Web.Services.Theme
         // Properties
         // -------------------------
         public string Theme { get; private set; } = "dark";
-        public bool IsDarkMode => Theme == "dark";
 
         public event Action? OnThemeChanged;
 

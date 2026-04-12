@@ -1,0 +1,123 @@
+﻿@inherits ThemeAwareComponent
+
+@using Size = MudBlazor.Size
+@using Color = MudBlazor.Color
+@using Align = MudBlazor.Align
+@using Variant = MudBlazor.Variant
+
+<MudCard Class="mb-6 pa-2" Elevation="0" Style="border: 1px solid var(--card-border); border-radius: 16px;">
+    <MudCardContent Class="pa-6">
+        <div class="title-row">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+            <h1 class="dashboard-title">Currency Converter</h1>
+        </div>
+
+        <p class="dashboard-subtitle">
+            Convert between 30+ world currencies with live exchange rates and historical trends powered by the European Central Bank.
+        </p>
+
+        <MudGrid Spacing="3" Class="align-center">
+            <MudItem xs="12" sm="3">
+                <MudNumericField @bind-Value="_amount"
+                                 @bind-Value:after="RecalculateAsync"
+                                 Label="Amount"
+                                 Variant="Variant.Outlined"
+                                 Min="1"
+                                 Format="F2"
+                                 FullWidth="true"
+                                 Style="border-radius: 12px;" />
+            </MudItem>
+            <MudItem xs="12" sm="3">
+                <MudSelect @bind-Value="_fromCurrency"
+                           @bind-Value:after="ResetConversion"
+                           Label="From"
+                           Variant="Variant.Outlined"
+                           FullWidth="true"
+                           AnchorOrigin="Origin.BottomCenter"
+                           Disabled="_isConverting">
+                    @foreach (var currency in Currencies)
+                    {
+                        <MudSelectItem Value="@currency.Code">@currency.ToString()</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="1" Class="d-flex align-center justify-center">
+                <MudIconButton Icon="@Icons.Material.Filled.SwapHoriz"
+                               Color="Color.Primary"
+                               Variant="Variant.Outlined"
+                               Style="border-radius: 50%; border: 1px solid var(--card-border);"
+                               OnClick="SwapCurrencies"
+                               Disabled="_isConverting" />
+            </MudItem>
+            <MudItem xs="12" sm="3">
+                <MudSelect @bind-Value="_toCurrency"
+                           @bind-Value:after="ResetConversion"
+                           Label="To"
+                           Variant="Variant.Outlined"
+                           FullWidth="true"
+                           AnchorOrigin="Origin.BottomCenter"
+                           Disabled="_isConverting">
+                    @foreach (var currency in Currencies)
+                    {
+                        <MudSelectItem Value="@currency.Code">@currency.ToString()</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="2" Class="d-flex align-center mt-2 mt-sm-0">
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           FullWidth="true"
+                           Size="Size.Large"
+                           Style="border-radius: 12px; min-height: 56px; height: auto; padding: 12px 16px; font-weight: 600; letter-spacing: 0.5px; white-space: nowrap;"
+                           OnClick="ConvertAsync"
+                           Disabled="_isConverting">
+                    @if (_isConverting)
+                    {
+                        <MudProgressCircular Size="Size.Small" Indeterminate="true" Color="Color.Surface" />
+                    }
+                    else
+                    {
+                        <span>Convert</span>
+                    }
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+
+        @if (_isConverting)
+        {
+            <MudPaper Class="mt-6 pa-2 d-flex flex-column align-center justify-center"
+                        Elevation="0"
+                        Style="border-radius: 16px; background: var(--nav-active-bg); border: 1px solid var(--card-border);">
+                <MudSkeleton SkeletonType="SkeletonType.Text" Width="160px" Height="18px" Class="mb-2" />
+                <MudSkeleton SkeletonType="SkeletonType.Text" Width="220px" Height="56px" Class="mb-2" />
+                <MudSkeleton SkeletonType="SkeletonType.Text" Width="140px" Height="18px" />
+            </MudPaper>
+        }
+        else
+        {
+            <MudPaper Class="mt-6 pa-6 d-flex flex-column align-center justify-center"
+                        Elevation="0"
+                        Style="border-radius: 16px; background: var(--nav-active-bg); border: 1px solid var(--accent);">
+                <MudText Typo="Typo.caption"
+                            Style="color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; font-weight: 600;">
+                    @_amount.ToString("F2") @_fromCurrency equals
+                </MudText>
+                <MudText Typo="Typo.h3"
+                            Style="color: var(--accent); font-weight: 700; letter-spacing: -1px; margin: 4px 0;">
+                    @(_conversionResult!.ConvertedAmount == 0 ? "0.0000" : _conversionResult!.ConvertedAmount.ToString("F4"))
+                    <MudText Typo="Typo.h5" Inline="true" Style="color: var(--text-body); font-weight: 400;">
+                        @_toCurrency
+                    </MudText>
+                </MudText>
+                <MudText Typo="Typo.caption" Style="color: var(--text-muted); margin-top: 4px;">
+                    @(_conversionResult!.Date == "--/--" ? "Hit convert to get the latest rate" : $"Rate as of {_conversionResult!.Date}")
+                </MudText>
+            </MudPaper>
+        }
+    </MudCardContent>
+</MudCard>
