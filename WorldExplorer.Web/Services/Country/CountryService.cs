@@ -31,7 +31,5 @@ namespace WorldExplorer.Web.Services.Country
         {
             return await _countryRepository.GetCountryByNameAsync(name);
         }
-            
     }
-
 }

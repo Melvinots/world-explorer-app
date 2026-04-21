@@ -1,5 +1,4 @@
-﻿/* CountryCard.razor.css */
-
+﻿
 .country-card {
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -19,7 +18,6 @@
         border-color: var(--accent);
     }
 
-/* Header: code + name */
 .card-header {
     display: flex;
     align-items: center;
@@ -45,14 +43,12 @@
     font-weight: 600;
 }
 
-/* Capital */
 .capital {
     color: var(--text-muted);
     font-size: 13px;
     margin: 0 0 10px;
 }
 
-/* Footer */
 .card-footer {
     display: flex;
     flex-direction: column;

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 using WorldExplorer.Domain.Enums;
 
 namespace WorldExplorer.Web.Components.Country

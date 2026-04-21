@@ -5,42 +5,28 @@ namespace WorldExplorer.Web.Components.Currency
 {
     public partial class CurrencyConverter
     {
-        #region Injects
         [Inject] private ICurrencyService CurrencyService { get; set; } = default!;
-        #endregion
 
-        #region Parameters
         [Parameter] public List<CurrencyModel> Currencies { get; set; } = new();
         [Parameter] public EventCallback<CurrencyPair> OnConverted { get; set; }
         [Parameter] public EventCallback OnReset { get; set; }
-        #endregion
 
-        #region Constants
         private const decimal BaseAmount = 1m;
         private const int DecimalPlaces = 4;
-        #endregion
 
-        #region Fields
         private string _fromCurrency = "USD";
         private string _toCurrency = "PHP";
         private decimal _amount = 1;
         private decimal _baseRate = 0;
         private ConversionResult? _conversionResult;
-        #endregion
-
-        #region State
         private bool _isConverting = true;
-        #endregion
 
-        #region Lifecycle
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
             await ConvertAsync();
         }
-        #endregion
 
-        #region Actions
         private async Task ConvertAsync()
         {
             var currencyPair = new CurrencyPair { From = _fromCurrency, To = _toCurrency };
@@ -82,9 +68,7 @@ namespace WorldExplorer.Web.Components.Currency
             (_fromCurrency, _toCurrency) = (_toCurrency, _fromCurrency);
             ResetConversion();
         }
-        #endregion
 
-        #region Helpers
         private void RecalculateAsync()
         {
             if (_baseRate == 0 || _conversionResult is null)
@@ -105,6 +89,5 @@ namespace WorldExplorer.Web.Components.Currency
             _baseRate = 0;
             OnReset.InvokeAsync();
         }
-        #endregion
     }
 }

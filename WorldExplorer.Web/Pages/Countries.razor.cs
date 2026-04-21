@@ -9,28 +9,18 @@ namespace WorldExplorer.Web.Pages
     {
         [Inject] private ICountryService CountryService { get; set; } = default!;
 
-        // -------------------------
-        // Fields
-        // -------------------------
         private bool _isLoading = true;
         private string _searchText = string.Empty;
         private Region _selectedRegion = Region.All;
         private CountryModal _modal = default!;
 
-        // -------------------------
-        // Properties
-        // -------------------------
         public List<CountryModel>? CountryList { get; set; }
-
         public int TotalCount => CountryList?.Count ?? 0;
         public int FilteredCount => FilteredCountries.Count();
         private List<CountryModel> FilteredCountries =>
             CountryList?.Where(MatchesFilter).ToList()
             ?? new List<CountryModel>();
 
-        // -------------------------
-        // Lifecycle
-        // -------------------------
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (!firstRender) return;
@@ -42,18 +32,12 @@ namespace WorldExplorer.Web.Pages
             StateHasChanged();
         }
 
-        // -------------------------
-        // Event Handlers
-        // -------------------------
         private void OnSearchChanged(string text)
             => _searchText = text ?? string.Empty;
 
         private async Task OnCardClicked(string countryName)
             => await _modal.OpenAsync(countryName);
 
-        // -------------------------
-        // Helpers
-        // -------------------------
         private bool MatchesFilter(CountryModel c)
         {
             var matchesSearch = string.IsNullOrWhiteSpace(_searchText) ||

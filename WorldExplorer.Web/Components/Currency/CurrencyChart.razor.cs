@@ -7,12 +7,12 @@ namespace WorldExplorer.Web.Components.Currency
 {
     public partial class CurrencyChart
     {
-        #region Injects
         [Inject] private ICurrencyService CurrencyService { get; set; } = default!;
         [Inject] private IThemeService ThemeService { get; set; } = default!;
-        #endregion
 
-        #region Lifecycle
+        private List<RateDataPoint> _dataPoints = new();
+        private bool _isLoadingChart = false;
+
         protected override void OnInitialized()
         {
             ThemeService.OnThemeChanged += OnThemeChangedHandler;
@@ -31,22 +31,10 @@ namespace WorldExplorer.Web.Components.Currency
         {
             ThemeService.OnThemeChanged -= OnThemeChangedHandler;
         }
-        #endregion
 
-        #region Parameters
         [Parameter] public string FromCurrency { get; set; } = "USD";
         [Parameter] public string ToCurrency { get; set; } = "PHP";
-        #endregion
 
-        #region Fields
-        private List<RateDataPoint> _dataPoints = new();
-        #endregion
-
-        #region State
-        private bool _isLoadingChart = false;
-        #endregion
-
-        #region Chart Options
         private ApexChartOptions<RateDataPoint> _chartOptions = new()
         {
             Chart = new Chart
@@ -74,9 +62,7 @@ namespace WorldExplorer.Web.Components.Currency
             Grid = new Grid { BorderColor = "var(--card-border)" },
             Theme = new Theme { Mode = Mode.Dark }
         };
-        #endregion
 
-        #region Public Methods
         public async Task LoadAsync(string fromCurrency, string toCurrency)
         {
             FromCurrency = fromCurrency;
@@ -97,6 +83,5 @@ namespace WorldExplorer.Web.Components.Currency
             _dataPoints = new();
             StateHasChanged();
         }
-        #endregion
     }
 }

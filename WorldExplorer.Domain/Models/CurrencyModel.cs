@@ -14,9 +14,6 @@ namespace WorldExplorer.Domain.Models
         public override string ToString() => $"{Code} - {Name}";
     }
 
-    /// <summary>
-    /// Response from /latest?from=USD&to=PHP
-    /// </summary>
     public class ConversionResult
     {
         [JsonPropertyName("amount")]
@@ -35,7 +32,8 @@ namespace WorldExplorer.Domain.Models
     }
 
     /// <summary>
-    /// Response from /2020-01-01..?from=USD&to=PHP (historical time series)
+    /// Maps the historical time series response from the Frankfurter API.
+    /// Endpoint: /2020-01-01..2024-01-01?from=USD&to=PHP
     /// </summary>
     public class HistoricalRatesResult
     {
@@ -51,15 +49,9 @@ namespace WorldExplorer.Domain.Models
         [JsonPropertyName("end_date")]
         public string EndDate { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Key: date string (e.g. "2023-01-01"), Value: dictionary of currency code to rate
-        /// </summary>
         [JsonPropertyName("rates")]
         public Dictionary<string, Dictionary<string, decimal>> Rates { get; set; } = new();
 
-        /// <summary>
-        /// Flattens the rates into a list of data points for charting.
-        /// </summary>
         public List<RateDataPoint> ToDataPoints(string targetCurrency)
         {
             return Rates
@@ -74,9 +66,6 @@ namespace WorldExplorer.Domain.Models
         }
     }
 
-    /// <summary>
-    /// A single data point for the historical chart.
-    /// </summary>
     public class RateDataPoint
     {
         public DateOnly Date { get; set; }

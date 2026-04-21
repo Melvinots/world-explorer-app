@@ -1,5 +1,4 @@
-﻿/* Home.razor.css */
-
+﻿
 .home {
     display: flex;
     flex-direction: column;
@@ -15,9 +14,6 @@
     border-bottom: 1px solid var(--card-border);
 }
 
-/* -------------------------
-   Orbs
-------------------------- */
 .hero-bg {
     position: absolute;
     inset: 0;
@@ -69,9 +65,6 @@
     }
 }
 
-/* -------------------------
-   Content
-------------------------- */
 .hero-content {
     position: relative;
     max-width: 640px;
@@ -163,9 +156,6 @@
     }
 }
 
-/* -------------------------
-   Responsive
-------------------------- */
 @media (max-width: 640px) {
     .hero {
         padding: 48px 24px;
@@ -176,10 +166,6 @@
     }
 }
 
-
-/* -------------------------
-   Stats
-------------------------- */
 .stats {
     display: flex;
     align-items: center;
@@ -219,9 +205,6 @@
     background-color: var(--card-border);
 }
 
-/* -------------------------
-   Features
-------------------------- */
 .features {
     padding: 64px 48px;
 }
@@ -367,9 +350,6 @@
     margin-top: 4px;
 }
 
-/* -------------------------
-   CTA
-------------------------- */
 .cta {
     margin: 0 48px 64px;
     background: linear-gradient(135deg, var(--nav-active-bg), transparent);
@@ -419,9 +399,6 @@
         height: 16px;
     }
 
-/* -------------------------
-   Responsive
-------------------------- */
 @media (max-width: 640px) {
     .stats {
         padding: 24px;

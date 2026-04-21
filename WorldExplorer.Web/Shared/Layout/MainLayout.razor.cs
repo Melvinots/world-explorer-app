@@ -1,4 +1,3 @@
-using ApexCharts;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using WorldExplorer.Web.Services.Theme;

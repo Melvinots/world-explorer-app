@@ -1,11 +1,9 @@
-﻿/* RegionFilter.razor.css */
-
+﻿
 .region-filter {
     position: relative;
     font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-/* Trigger button */
 .filter-btn {
     display: flex;
     align-items: center;
@@ -40,7 +38,6 @@
         transform: rotate(180deg);
     }
 
-/* Dropdown */
 .dropdown {
     position: absolute;
     top: calc(100% + 6px);

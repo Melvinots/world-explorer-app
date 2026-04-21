@@ -5,21 +5,12 @@ namespace WorldExplorer.Web.Components.Country
 {
     public partial class CountryModal
     {
-        // -------------------------
-        // Fields
-        // -------------------------
+        [Inject] private ICountryService CountryService { get; set; } = default!;
+
         private bool _isVisible = false;
         private bool _isLoading = false;
         private CountryModel? _country;
 
-        // -------------------------
-        // Injections
-        // -------------------------
-        [Inject] private ICountryService CountryService { get; set; } = default!;
-
-        // -------------------------
-        // Public Methods
-        // -------------------------
         public async Task OpenAsync(string countryName)
         {
             SetLoadingState();
@@ -27,14 +18,8 @@ namespace WorldExplorer.Web.Components.Country
             SetLoadedState();
         }
 
-        // -------------------------
-        // Event Handlers
-        // -------------------------
         private void Close() => Reset();
 
-        // -------------------------
-        // Helpers
-        // -------------------------
         private void SetLoadingState()
         {
             _isVisible = true;

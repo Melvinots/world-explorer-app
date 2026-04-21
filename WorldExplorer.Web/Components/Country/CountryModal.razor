@@ -1,5 +1,4 @@
-﻿@* CountryModal.razor *@
-
+﻿
 @if (_isVisible)
 {
     <div class="modal-overlay" @onclick="Close">
@@ -14,7 +13,6 @@
             }
             else if (_country is not null)
             {
-                <!-- Header -->
                 <div class="modal-header">
                     <div class="modal-flag">
                         @if (_country.Flags?.Png is not null)
@@ -39,7 +37,6 @@
                     </button>
                 </div>
 
-                <!-- Body -->
                 <div class="modal-body">
                     <!-- Left column -->
                     <div class="modal-col">
@@ -116,7 +113,6 @@
                     </div>
                 </div>
 
-                <!-- Maps footer -->
                 @if (_country.Maps?.GoogleMaps is not null)
                 {
                     <div class="modal-footer">
