@@ -1,0 +1,95 @@
+﻿@namespace WorldExplorer.Web.Pages
+@using WorldExplorer.Services.TripPlanner
+
+@if (Trips.Count > 0)
+{
+    <div class="board-section">
+        <h2 class="board-title">
+            🗺️ My Trips <span class="trip-count">@Trips.Count</span>
+        </h2>
+        <div class="trips-grid">
+            @foreach (var trip in Trips)
+            {
+                <div class="trip-card @GetTripTypeClass(trip.TripType)">
+                    <div class="card-header">
+                        <span class="card-flag">@GetCountryFlag(trip.DestinationCountry)</span>
+                        <div class="card-destination">
+                            <span class="card-country">@trip.DestinationCountry</span>
+                            <span class="card-type-badge">@GetTripTypeLabel(trip.TripType)</span>
+                        </div>
+                        <button class="btn-delete" @onclick="() => OnDeleteTrip.InvokeAsync(trip.Id)" title="Remove trip">✕</button>
+                    </div>
+
+                    <div class="card-traveler">👤 @trip.TravelerName</div>
+
+                    <div class="card-dates">
+                        📅 @trip.DepartureDate?.ToString("MMM d") – @trip.ReturnDate?.ToString("MMM d, yyyy")
+                    </div>
+
+                    <div class="card-stats">
+                        <div class="stat">
+                            <span class="stat-value">@trip.DurationDays</span>
+                            <span class="stat-label">days</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">@trip.Travelers</span>
+                            <span class="stat-label">travelers</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">$@trip.BudgetPerPerson.ToString("N0")</span>
+                            <span class="stat-label">per person</span>
+                        </div>
+                    </div>
+
+                    <div class="card-budget">💰 Total: $@trip.BudgetUSD?.ToString("N0") USD</div>
+
+                    @if (!string.IsNullOrWhiteSpace(trip.Notes))
+                    {
+                        <div class="card-notes">📝 @trip.Notes</div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="empty-state">
+        <span class="empty-icon">🌍</span>
+        <p>No trips planned yet.</p>
+        <button class="btn-add-trip" @onclick="OnPlanTripClick">Plan your first trip</button>
+    </div>
+}
+
+@code {
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<TripPlannerModel> Trips { get; set; } = [];
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<(string Name, string Flag)> Countries { get; set; } = [];
+
+    [Parameter, EditorRequired]
+    public IReadOnlyList<(string Value, string Label)> TripTypes { get; set; } = [];
+
+    [Parameter, EditorRequired]
+    public EventCallback<Guid> OnDeleteTrip { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback OnPlanTripClick { get; set; }
+
+    private string GetCountryFlag(string countryName)
+    {
+        var match = Countries.FirstOrDefault(c => c.Name == countryName);
+        return match.Flag ?? "🌍";
+    }
+
+    private string GetTripTypeLabel(string value)
+    {
+        var match = TripTypes.FirstOrDefault(t => t.Value == value);
+        return match.Label ?? value;
+    }
+
+    private string GetTripTypeClass(string value) => $"type-{value}";
+
+}

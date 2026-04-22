@@ -1,5 +1,6 @@
 using ApexCharts;
 using MudBlazor.Services;
+using WorldExplorer.Services.TripPlanner;
 using WorldExplorer.Web;
 using WorldExplorer.Web.Repositories.Country;
 using WorldExplorer.Web.Repositories.Currency;
@@ -9,8 +10,8 @@ using WorldExplorer.Web.Services.Theme;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+//builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -24,6 +25,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped<IThemeService, ThemeService>();
 builder.Services.AddScoped<ICountryService, CountryService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+builder.Services.AddScoped<ITripPlannerService, TripPlannerService>();
 builder.Services.AddHttpClient<ICountryRepository, CountryApiRepository>(client =>
 {
     client.BaseAddress = new Uri("https://restcountries.com/v3.1/");

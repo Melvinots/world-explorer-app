@@ -1,0 +1,18 @@
+﻿@namespace WorldExplorer.Web.Pages
+
+<div class="page-header">
+    <div class="header-text">
+        <h1 class="page-title">✈️ Travel Planner</h1>
+        <p class="page-subtitle">Plan your next adventure and keep track of all your trips</p>
+    </div>
+    <button class="btn-add-trip" @onclick="OnPlanTripClick">
+        + Plan a Trip
+    </button>
+</div>
+
+@code {
+
+    [Parameter, EditorRequired]
+    public EventCallback OnPlanTripClick { get; set; }
+
+}

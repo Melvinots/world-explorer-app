@@ -1,0 +1,23 @@
+﻿@page "/trip-planner"
+
+@namespace WorldExplorer.Web.Pages
+
+<PageTitle>Trip Planner</PageTitle>
+
+<div class="planner-page">
+
+    <TripPlannerHeader OnPlanTripClick="OpenModal" />
+
+    <TripPlannerBoard Trips="TripPlannerService.Trips"
+                      Countries="@_countries"
+                      TripTypes="@_tripTypes"
+                      OnDeleteTrip="DeleteTrip"
+                      OnPlanTripClick="OpenModal" />
+
+    <TripPlannerModal IsVisible="@_showModal"
+                      Countries="@_countries"
+                      TripTypes="@_tripTypes"
+                      OnTripSubmitted="HandleTripSubmitted"
+                      OnCancelled="CloseModal" />
+
+</div>

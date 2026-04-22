@@ -1,0 +1,109 @@
+﻿@using WorldExplorer.Services.TripPlanner
+
+@if (IsVisible)
+{
+    <div class="modal-overlay" @onclick="HandleOverlayClick">
+        <div class="modal-dialog" @onclick:stopPropagation="true">
+
+            <div class="modal-header">
+                <h2 class="modal-title">✈️ Plan a New Trip</h2>
+                <button class="modal-close" @onclick="HandleCancel">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <EditForm Model="@_newTrip" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="validation-summary" />
+
+                    <div class="form-grid">
+
+                        <!-- Traveler Name -->
+                        <div class="form-group">
+                            <label class="form-label">Your Name</label>
+                            <InputText class="form-input" @bind-Value="_newTrip.TravelerName"
+                                       placeholder="e.g. Juan Dela Cruz" />
+                            <ValidationMessage For="@(() => _newTrip.TravelerName)" class="field-error" />
+                        </div>
+
+                        <!-- Destination Country -->
+                        <div class="form-group">
+                            <label class="form-label">Destination Country</label>
+                            <InputSelect class="form-input" @bind-Value="_newTrip.DestinationCountry"
+                                         @bind-Value:after="OnCountryChanged">
+                                <option value="">-- Select a country --</option>
+                                @foreach (var country in Countries)
+                                {
+                                    <option value="@country.Name">@country.Flag @country.Name</option>
+                                }
+                            </InputSelect>
+                            <ValidationMessage For="@(() => _newTrip.DestinationCountry)" class="field-error" />
+                        </div>
+
+                        <!-- Departure Date -->
+                        <div class="form-group">
+                            <label class="form-label">Departure Date</label>
+                            <InputDate class="form-input" @bind-Value="_newTrip.DepartureDate" />
+                            <ValidationMessage For="@(() => _newTrip.DepartureDate)" class="field-error" />
+                        </div>
+
+                        <!-- Return Date -->
+                        <div class="form-group">
+                            <label class="form-label">Return Date</label>
+                            <InputDate class="form-input" @bind-Value="_newTrip.ReturnDate" />
+                            <ValidationMessage For="@(() => _newTrip.ReturnDate)" class="field-error" />
+                            @if (_dateError != null)
+                            {
+                                <span class="field-error">@_dateError</span>
+                            }
+                        </div>
+
+                        <!-- Number of Travelers -->
+                        <div class="form-group">
+                            <label class="form-label">Number of Travelers</label>
+                            <InputNumber class="form-input" @bind-Value="_newTrip.Travelers" placeholder="e.g. 2" />
+                            <ValidationMessage For="@(() => _newTrip.Travelers)" class="field-error" />
+                        </div>
+
+                        <!-- Budget -->
+                        <div class="form-group">
+                            <label class="form-label">Total Budget (USD)</label>
+                            <InputNumber class="form-input" @bind-Value="_newTrip.BudgetUSD" placeholder="e.g. 2000" />
+                            <ValidationMessage For="@(() => _newTrip.BudgetUSD)" class="field-error" />
+                        </div>
+
+                        <!-- Trip Type -->
+                        <div class="form-group">
+                            <label class="form-label">Trip Type</label>
+                            <InputSelect class="form-input" @bind-Value="_newTrip.TripType">
+                                <option value="">-- Select a type --</option>
+                                @foreach (var type in TripTypes)
+                                {
+                                    <option value="@type.Value">@type.Label</option>
+                                }
+                            </InputSelect>
+                            <ValidationMessage For="@(() => _newTrip.TripType)" class="field-error" />
+                        </div>
+
+                        <!-- Notes full width -->
+                        <div class="form-group form-group--full">
+                            <label class="form-label">
+                                Notes <span class="optional">(optional)</span>
+                            </label>
+                            <InputTextArea class="form-input form-textarea" @bind-Value="_newTrip.Notes"
+                                           placeholder="Anything you want to remember about this trip..."
+                                           maxlength="300" />
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" @onclick="HandleCancel">Cancel</button>
+                        <button type="submit" class="btn-submit">Add Trip 📌</button>
+                    </div>
+
+                </EditForm>
+            </div>
+
+        </div>
+    </div>
+}
