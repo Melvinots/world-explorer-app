@@ -19,6 +19,7 @@ builder.Services.AddRazorComponents()
     {
         options.DetailedErrors = true;
     });
+
 builder.Services.AddApexCharts();
 builder.Services.AddMudServices();
 builder.Services.AddMemoryCache();

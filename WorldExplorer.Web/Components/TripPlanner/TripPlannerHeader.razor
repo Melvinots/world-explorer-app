@@ -1,18 +1,21 @@
-﻿@namespace WorldExplorer.Web.Pages
-
+﻿
 <div class="page-header">
-    <div class="header-text">
-        <h1 class="page-title">✈️ Travel Planner</h1>
-        <p class="page-subtitle">Plan your next adventure and keep track of all your trips</p>
+    <div>
+        <div class="title-row">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="2" x2="12" y2="22" />
+                <path d="M12 3H19l3 3-3 3H12" />
+                <path d="M12 10H6l-3 3 3 3H12" />
+            </svg>
+            <h1 class="dashboard-title">Travel Planner</h1>
+        </div>
+        <p class="dashboard-subtitle">
+            Plan your next adventure and keep track of all your trips.
+        </p>
     </div>
     <button class="btn-add-trip" @onclick="OnPlanTripClick">
         + Plan a Trip
     </button>
 </div>
-
-@code {
-
-    [Parameter, EditorRequired]
-    public EventCallback OnPlanTripClick { get; set; }
-
-}

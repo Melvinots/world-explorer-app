@@ -54,7 +54,5 @@ namespace WorldExplorer.Web.Components.TripPlanner
         }
 
         private async Task HandleCancel() => await OnCancelled.InvokeAsync();
-
-        private async Task HandleOverlayClick() => await OnCancelled.InvokeAsync();
     }
 }

@@ -1,26 +1,24 @@
 ﻿
 .planner-page,
 .modal-overlay {
-    --tp-bg: var(--bg-primary, #ffffff);
-    --tp-bg-secondary: var(--bg-secondary, #f8fafc);
-    --tp-surface: var(--surface, #ffffff);
-    --tp-border: var(--border-color, #e2e8f0);
-    --tp-text: var(--text-primary, #1e293b);
-    --tp-text-muted: var(--text-secondary, #64748b);
-    --tp-input-bg: var(--input-bg, #f9fafb);
-    --tp-input-border: var(--input-border, #d1d5db);
-    --tp-accent: var(--accent-color, #3b82f6);
-    --tp-accent-hover: var(--accent-hover, #2563eb);
-    --tp-shadow: var(--shadow-color, rgba(0,0,0,0.08));
-    --tp-overlay: var(--overlay-bg, rgba(0,0,0,0.55));
-    --tp-danger-bg: var(--danger-bg, #fef2f2);
-    --tp-danger-text: var(--danger-text, #b91c1c);
-    --tp-error: var(--error-color, #ef4444);
+    --tp-bg: var(--bg-primary);
+    --tp-bg-secondary: var(--search-bg);
+    --tp-surface: var(--card-bg);
+    --tp-border: var(--card-border);
+    --tp-text: var(--text-heading);
+    --tp-text-muted: var(--text-muted);
+    --tp-input-bg: var(--search-bg);
+    --tp-input-border: var(--search-border);
+    --tp-accent: var(--accent);
+    --tp-accent-hover: var(--orb-primary);
+    --tp-shadow: var(--card-shadow);
+    --tp-overlay: rgba(0, 0, 0, 0.6);
+    --tp-danger-bg: rgba(239, 68, 68, 0.08);
+    --tp-danger-text: #ef4444;
+    --tp-error: #ef4444;
 }
 
-/* ── Page ── */
 .planner-page {
-    max-width: 1100px;
     margin: 0 auto;
     padding: 2rem 1.5rem;
     font-family: 'Segoe UI', sans-serif;
@@ -34,6 +32,50 @@
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 2rem;
+}
+
+.title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    color: var(--accent);
+    flex-shrink: 0;
+    stroke-width: 1.6;
+}
+
+.dashboard-title {
+    color: var(--text-heading);
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+}
+
+.dashboard-subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 400;
+    margin: 4px 0 16px;
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .page-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .btn-add-trip {
+        width: 100%;
+    }
 }
 
 .header-text {
@@ -53,7 +95,6 @@
     margin: 0;
 }
 
-/* ── Buttons ── */
 .btn-add-trip {
     background: var(--tp-accent);
     color: #fff;
@@ -63,16 +104,17 @@
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
     white-space: nowrap;
+    box-shadow: 0 0 0 transparent;
 }
 
     .btn-add-trip:hover {
         background: var(--tp-accent-hover);
         transform: translateY(-1px);
+        box-shadow: 0 4px 16px var(--accent-glow);
     }
 
-/* ── Board ── */
 .board-section {
     margin-top: 0.5rem;
 }
@@ -102,11 +144,11 @@
     gap: 1.2rem;
 }
 
-/* ── Trip Card ── */
 .trip-card {
     background: var(--tp-surface);
     border-radius: 14px;
     padding: 1.2rem;
+    border: 1px solid var(--tp-border);
     border-left: 5px solid var(--tp-accent);
     box-shadow: 0 2px 12px var(--tp-shadow);
     transition: transform 0.2s, box-shadow 0.2s;
@@ -239,7 +281,6 @@
     padding-top: 0.5rem;
 }
 
-/* ── Empty State ── */
 .empty-state {
     text-align: center;
     padding: 3.5rem 2rem;
@@ -257,9 +298,6 @@
     font-size: 3rem;
 }
 
-/* ─────────────────────────────────────────────
-           MODAL
-        ───────────────────────────────────────────── */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -270,9 +308,10 @@
     z-index: 1000;
     padding: 1rem;
     animation: tp-fadeIn 0.15s ease;
+    pointer-events: none;
 }
 
-@@keyframes tp-fadeIn {
+@keyframes tp-fadeIn {
     from {
         opacity: 0;
     }
@@ -290,12 +329,14 @@
     max-height: 90vh;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    border: 1px solid var(--tp-border);
+    box-shadow: 0 20px 60px var(--tp-shadow);
     animation: tp-slideUp 0.2s ease;
     overflow: hidden;
+    pointer-events: all;
 }
 
-@@keyframes tp-slideUp {
+@keyframes tp-slideUp {
     from {
         opacity: 0;
         transform: translateY(20px);
@@ -355,7 +396,6 @@
     margin-top: 1.2rem;
 }
 
-/* ── Form ── */
 .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -398,7 +438,7 @@
 
     .form-input:focus {
         border-color: var(--tp-accent);
-        box-shadow: 0 0 0 3px color-mix(in srgb, var(--tp-accent) 15%, transparent);
+        box-shadow: 0 0 0 3px var(--accent-glow);
         background: var(--tp-surface);
     }
 
@@ -412,16 +452,6 @@
     font-size: 0.78rem;
 }
 
-.validation-summary {
-    background: var(--tp-danger-bg);
-    border: 1px solid color-mix(in srgb, var(--tp-error) 30%, transparent);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    color: var(--tp-danger-text);
-    font-size: 0.83rem;
-    margin-bottom: 1rem;
-}
-
 .btn-submit {
     background: var(--tp-accent);
     color: #fff;
@@ -431,12 +461,13 @@
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
 }
 
     .btn-submit:hover {
         background: var(--tp-accent-hover);
         transform: translateY(-1px);
+        box-shadow: 0 4px 16px var(--accent-glow);
     }
 
 .btn-cancel {

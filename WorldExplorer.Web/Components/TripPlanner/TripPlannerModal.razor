@@ -1,9 +1,8 @@
-﻿@using WorldExplorer.Services.TripPlanner
-
+﻿
 @if (IsVisible)
 {
-    <div class="modal-overlay" @onclick="HandleOverlayClick">
-        <div class="modal-dialog" @onclick:stopPropagation="true">
+    <div class="modal-overlay">
+        <div class="modal-dialog">
 
             <div class="modal-header">
                 <h2 class="modal-title">✈️ Plan a New Trip</h2>
@@ -13,11 +12,9 @@
             <div class="modal-body">
                 <EditForm Model="@_newTrip" OnValidSubmit="HandleValidSubmit">
                     <DataAnnotationsValidator />
-                    <ValidationSummary class="validation-summary" />
 
                     <div class="form-grid">
 
-                        <!-- Traveler Name -->
                         <div class="form-group">
                             <label class="form-label">Your Name</label>
                             <InputText class="form-input" @bind-Value="_newTrip.TravelerName"
@@ -25,7 +22,6 @@
                             <ValidationMessage For="@(() => _newTrip.TravelerName)" class="field-error" />
                         </div>
 
-                        <!-- Destination Country -->
                         <div class="form-group">
                             <label class="form-label">Destination Country</label>
                             <InputSelect class="form-input" @bind-Value="_newTrip.DestinationCountry"
@@ -39,14 +35,12 @@
                             <ValidationMessage For="@(() => _newTrip.DestinationCountry)" class="field-error" />
                         </div>
 
-                        <!-- Departure Date -->
                         <div class="form-group">
                             <label class="form-label">Departure Date</label>
                             <InputDate class="form-input" @bind-Value="_newTrip.DepartureDate" />
                             <ValidationMessage For="@(() => _newTrip.DepartureDate)" class="field-error" />
                         </div>
 
-                        <!-- Return Date -->
                         <div class="form-group">
                             <label class="form-label">Return Date</label>
                             <InputDate class="form-input" @bind-Value="_newTrip.ReturnDate" />
@@ -57,21 +51,18 @@
                             }
                         </div>
 
-                        <!-- Number of Travelers -->
                         <div class="form-group">
                             <label class="form-label">Number of Travelers</label>
                             <InputNumber class="form-input" @bind-Value="_newTrip.Travelers" placeholder="e.g. 2" />
                             <ValidationMessage For="@(() => _newTrip.Travelers)" class="field-error" />
                         </div>
 
-                        <!-- Budget -->
                         <div class="form-group">
                             <label class="form-label">Total Budget (USD)</label>
                             <InputNumber class="form-input" @bind-Value="_newTrip.BudgetUSD" placeholder="e.g. 2000" />
                             <ValidationMessage For="@(() => _newTrip.BudgetUSD)" class="field-error" />
                         </div>
 
-                        <!-- Trip Type -->
                         <div class="form-group">
                             <label class="form-label">Trip Type</label>
                             <InputSelect class="form-input" @bind-Value="_newTrip.TripType">
@@ -84,7 +75,6 @@
                             <ValidationMessage For="@(() => _newTrip.TripType)" class="field-error" />
                         </div>
 
-                        <!-- Notes full width -->
                         <div class="form-group form-group--full">
                             <label class="form-label">
                                 Notes <span class="optional">(optional)</span>
