@@ -12,21 +12,21 @@ namespace WorldExplorer.Web.Pages
         private readonly IReadOnlyList<(string Name, string Flag)> _countries =
         [
             ("Japan", "🇯🇵"), ("Italy", "🇮🇹"), ("France", "🇫🇷"), ("Spain", "🇪🇸"),
-        ("Germany", "🇩🇪"), ("United States", "🇺🇸"), ("Canada", "🇨🇦"),
-        ("Australia", "🇦🇺"), ("Brazil", "🇧🇷"), ("Mexico", "🇲🇽"),
-        ("Thailand", "🇹🇭"), ("South Korea", "🇰🇷"), ("Philippines", "🇵🇭"),
-        ("United Kingdom", "🇬🇧"), ("Greece", "🇬🇷"), ("Turkey", "🇹🇷"),
-        ("Indonesia", "🇮🇩"), ("India", "🇮🇳"), ("Portugal", "🇵🇹"),
-        ("Netherlands", "🇳🇱"), ("Switzerland", "🇨🇭"), ("New Zealand", "🇳🇿")
+            ("Germany", "🇩🇪"), ("United States", "🇺🇸"), ("Canada", "🇨🇦"),
+            ("Australia", "🇦🇺"), ("Brazil", "🇧🇷"), ("Mexico", "🇲🇽"),
+            ("Thailand", "🇹🇭"), ("South Korea", "🇰🇷"), ("Philippines", "🇵🇭"),
+            ("United Kingdom", "🇬🇧"), ("Greece", "🇬🇷"), ("Turkey", "🇹🇷"),
+            ("Indonesia", "🇮🇩"), ("India", "🇮🇳"), ("Portugal", "🇵🇹"),
+            ("Netherlands", "🇳🇱"), ("Switzerland", "🇨🇭"), ("New Zealand", "🇳🇿")
         ];
 
         private readonly IReadOnlyList<(string Value, string Label)> _tripTypes =
         [
             ("leisure",   "🏖️ Leisure"),
-        ("adventure", "🏔️ Adventure"),
-        ("culture",   "🎨 Culture"),
-        ("food",      "🍜 Food Tour"),
-        ("business",  "💼 Business")
+            ("adventure", "🏔️ Adventure"),
+            ("culture",   "🎨 Culture"),
+            ("food",      "🍜 Food Tour"),
+            ("business",  "💼 Business")
         ];
 
         private void OpenModal() => _showModal = true;

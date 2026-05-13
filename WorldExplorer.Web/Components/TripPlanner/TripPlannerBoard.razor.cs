@@ -33,6 +33,5 @@ namespace WorldExplorer.Web.Pages
         }
 
         private string GetTripTypeClass(string value) => $"type-{value}";
-
     }
 }

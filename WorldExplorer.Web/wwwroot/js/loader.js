@@ -15,5 +15,5 @@
 
     document.addEventListener('blazor:initialized', hideLoader);
 
-    setTimeout(hideLoader, 500);
+    setTimeout(hideLoader, 3000);
 })();
