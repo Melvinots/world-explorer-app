@@ -65,17 +65,15 @@
         {
             @foreach (var country in FilteredCountries)
             {
-                <CountryCard CountryCode="@country.Cca2"
-                             CountryName="@country.Name?.Common"
-                             Capital="@country.Capital?.FirstOrDefault()"
+                <CountryCard CountryCode="@(country.Codes?.Alpha2 ?? string.Empty)"
+                             CountryName="@country.Names?.Common"
+                             Capital="@country.Capitals?.FirstOrDefault()?.Name"
                              Region="@country.Region"
                              Population="@FormatHelper.FormatPopulation(country.Population)"
-                             OnClick="() => OnCardClicked(country.Name?.Common ?? string.Empty)" />
+                             OnClick="() => OnCardClicked(country.Names?.Common ?? string.Empty)" />
             }
         }
         <CountryModal @ref="_modal" />
     </div>
     <ScrollToTop />
 </div>
-
-

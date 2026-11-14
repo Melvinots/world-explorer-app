@@ -1,8 +1,10 @@
-﻿namespace WorldExplorer.Web.Services.Country
+﻿using WorldExplorer.Web.Integrations.RestCountries.Dtos;
+
+namespace WorldExplorer.Web.Services.Country
 {
     public interface ICountryService
     {
         Task<List<CountryModel>> GetCountryListAsync();
-        Task<CountryModel?> GetCountryByNameAsync(string name);
+        Task<CountryModel> GetCountryByNameAsync(string name);
     }
 }

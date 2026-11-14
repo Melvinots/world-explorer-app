@@ -1,5 +1,4 @@
-﻿
-@if (_isVisible)
+﻿@if (_isVisible)
 {
     <div class="modal-overlay" @onclick="Close">
         <div class="modal-container" @onclick:stopPropagation>
@@ -15,17 +14,29 @@
             {
                 <div class="modal-header">
                     <div class="modal-flag">
-                        @if (_country.Flags?.Png is not null)
+                        @{
+                            var flagUrl = !string.IsNullOrEmpty(_country.Flag.UrlSvg)
+                                ? _country.Flag.UrlSvg
+                                : _country.Flag.UrlPng;
+                        }
+                        @if (!string.IsNullOrEmpty(flagUrl))
                         {
-                            <img src="https://flagcdn.com/w160/@(_country.Cca2?.ToLower()).png"
-                                 alt="@_country.Name?.Common flag"
+                            <img src="@flagUrl"
+                                 alt="@(string.IsNullOrEmpty(_country.Flag.Description) ? $"{_country.Names.Common} flag" : _country.Flag.Description)"
                                  loading="lazy"
                                  onerror="this.onerror=null; this.src='/images/flag-placeholder.png';" />
                         }
+                        else if (!string.IsNullOrEmpty(_country.Flag.Emoji))
+                        {
+                            <span class="flag-emoji">@_country.Flag.Emoji</span>
+                        }
                     </div>
                     <div class="modal-title-group">
-                        <h2 class="modal-country-name">@_country.Name?.Common</h2>
-                        <p class="modal-official-name">@_country.Name?.Official</p>
+                        <h2 class="modal-country-name">@_country.Names.Common</h2>
+                        @if (!string.IsNullOrEmpty(_country.Descriptions.Short))
+                        {
+                            <p class="modal-official-name">@_country.Descriptions.Short</p>
+                        }
                     </div>
                     <button class="modal-close" @onclick="Close">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -42,15 +53,15 @@
                     <div class="modal-col">
                         <div class="modal-row">
                             <span class="modal-label">Capital</span>
-                            <span class="modal-value">@(_country.Capital?.FirstOrDefault() ?? "N/A")</span>
+                            <span class="modal-value">@(_country.Capitals.FirstOrDefault()?.Name ?? "N/A")</span>
                         </div>
                         <div class="modal-row">
                             <span class="modal-label">Region</span>
-                            <span class="modal-value">@_country.Region</span>
+                            <span class="modal-value">@(string.IsNullOrEmpty(_country.Region) ? "N/A" : _country.Region)</span>
                         </div>
                         <div class="modal-row">
                             <span class="modal-label">Subregion</span>
-                            <span class="modal-value">@(_country.Subregion ?? "N/A")</span>
+                            <span class="modal-value">@(string.IsNullOrEmpty(_country.Subregion) ? "N/A" : _country.Subregion)</span>
                         </div>
                         <div class="modal-row">
                             <span class="modal-label">Population</span>
@@ -58,11 +69,11 @@
                         </div>
                         <div class="modal-row">
                             <span class="modal-label">Area</span>
-                            <span class="modal-value">@(_country.Area.HasValue ? $"{_country.Area.Value:N0} km²" : "N/A")</span>
+                            <span class="modal-value">@(_country.Area.Kilometers > 0 ? $"{_country.Area.Kilometers:N0} km²" : "N/A")</span>
                         </div>
                         <div class="modal-row">
-                            <span class="modal-label">Landlocked</span>
-                            <span class="modal-value">@(_country.Landlocked ? "Yes" : "No")</span>
+                            <span class="modal-label">Government</span>
+                            <span class="modal-value">@(string.IsNullOrEmpty(_country.GovernmentType) ? "N/A" : _country.GovernmentType)</span>
                         </div>
                     </div>
 
@@ -70,14 +81,17 @@
                     <div class="modal-col">
                         <div class="modal-row">
                             <span class="modal-label">Code</span>
-                            <span class="modal-value">@_country.Cca2 / @_country.Cca3</span>
+                            <span class="modal-value">
+                                @(string.IsNullOrEmpty(_country.Codes.Alpha2) ? "N/A" : $"{_country.Codes.Alpha2} / {_country.Codes.Alpha3}")
+                            </span>
                         </div>
                         <div class="modal-row">
                             <span class="modal-label">Currencies</span>
                             <span class="modal-value">
-                                @if (_country.Currencies is not null)
+                                @if (_country.Currencies.Count > 0)
                                 {
-                                    @string.Join(", ", _country.Currencies.Values.Select(c => $"{c.Name} ({c.Symbol})"))
+                                    @string.Join(", ", _country.Currencies.Select(c =>
+                                        string.IsNullOrEmpty(c.Symbol) ? c.Name : $"{c.Name} ({c.Symbol})"))
                                 }
                                 else
                                 {
@@ -88,9 +102,9 @@
                         <div class="modal-row">
                             <span class="modal-label">Languages</span>
                             <span class="modal-value">
-                                @if (_country.Languages is not null)
+                                @if (_country.Languages.Count > 0)
                                 {
-                                    @string.Join(", ", _country.Languages.Values)
+                                    @string.Join(", ", _country.Languages.Select(l => l.Name))
                                 }
                                 else
                                 {
@@ -99,24 +113,30 @@
                             </span>
                         </div>
                         <div class="modal-row">
-                            <span class="modal-label">Timezones</span>
-                            <span class="modal-value">@(_country.Timezones?.FirstOrDefault() ?? "N/A")</span>
+                            <span class="modal-label">Driving side</span>
+                            <span class="modal-value">
+                                @(string.IsNullOrEmpty(_country.Cars.DrivingSide)
+                                    ? "N/A"
+                                    : char.ToUpper(_country.Cars.DrivingSide[0]) + _country.Cars.DrivingSide[1..])
+                            </span>
                         </div>
                         <div class="modal-row">
                             <span class="modal-label">UN Member</span>
-                            <span class="modal-value">@(_country.UnMember ? "Yes" : "No")</span>
+                            <span class="modal-value">@(_country.Memberships.Un ? "Yes" : "No")</span>
                         </div>
                         <div class="modal-row">
                             <span class="modal-label">Flag</span>
-                            <span class="modal-value flag-emoji">@_country.Flag</span>
+                            <span class="modal-value flag-emoji">
+                                @(string.IsNullOrEmpty(_country.Flag.Emoji) ? "N/A" : _country.Flag.Emoji)
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                @if (_country.Maps?.GoogleMaps is not null)
+                @if (!string.IsNullOrEmpty(_country.Links.GoogleMaps))
                 {
                     <div class="modal-footer">
-                        <a href="@_country.Maps.GoogleMaps" target="_blank" class="maps-link">
+                        <a href="@_country.Links.GoogleMaps" target="_blank" rel="noopener" class="maps-link">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="1.8"
                                  stroke-linecap="round" stroke-linejoin="round">

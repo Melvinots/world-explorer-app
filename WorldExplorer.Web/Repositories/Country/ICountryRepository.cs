@@ -1,4 +1,6 @@
-﻿namespace WorldExplorer.Web.Repositories.Country
+﻿using WorldExplorer.Web.Integrations.RestCountries.Dtos;
+
+namespace WorldExplorer.Web.Repositories.Country
 {
     public interface ICountryRepository
     {
@@ -7,12 +9,12 @@
         /// Use this to populate dropdowns.
         /// GET /all?fields=name,cca2,capital,region,population
         /// </summary>
-        Task<List<CountryModel>> GetCountryListAsync();
+        Task<List<CountryModel>> GetCountryListAsync(CancellationToken ct = default);
 
         /// <summary>
         /// Fetches a single country by name.
         /// GET /name/{name}
         /// </summary>
-        Task<CountryModel?> GetCountryByNameAsync(string name);
+        //Task<CountryModel?> GetCountryByNameAsync(string name);
     }
 }

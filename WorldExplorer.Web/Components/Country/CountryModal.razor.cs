@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using WorldExplorer.Web.Services.Country;
+using WorldExplorer.Web.Integrations.RestCountries.Dtos;
 
 namespace WorldExplorer.Web.Components.Country
 {
@@ -9,7 +10,7 @@ namespace WorldExplorer.Web.Components.Country
 
         private bool _isVisible = false;
         private bool _isLoading = false;
-        private CountryModel? _country;
+        private CountryModel _country;
 
         public async Task OpenAsync(string countryName)
         {
