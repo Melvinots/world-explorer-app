@@ -1,39 +1,58 @@
 using Microsoft.AspNetCore.Components;
 using WorldExplorer.Domain.Enums;
 using WorldExplorer.Web.Components.Country;
-using WorldExplorer.Web.Services.Country;
+using WorldExplorer.Web.Integrations.RestCountries;
 using WorldExplorer.Web.Integrations.RestCountries.Dtos;
+using WorldExplorer.Web.Services.Country;
 
 namespace WorldExplorer.Web.Pages
 {
-    public partial class Countries
+    public partial class Countries : IDisposable
     {
         [Inject] private ICountryService CountryService { get; set; } = default!;
 
+        private readonly CancellationTokenSource _cts = new();
+
         private bool _isLoading = true;
+        private string? _error;
         private string _searchText = string.Empty;
-        private Region _selectedRegion = Region.All;   
+        private Region _selectedRegion = Region.All;
         private CountryModal _modal = default!;
 
-        public List<CountryModel> CountryList { get; set; }
-        public int TotalCount => CountryList?.Count ?? 0;
-        public int FilteredCount => FilteredCountries.Count();
-        private List<CountryModel> FilteredCountries =>
-            CountryList?.Where(MatchesFilter).ToList()
-            ?? new List<CountryModel>();
+        public List<CountryModel> CountryList { get; set; } = new();
 
-        protected override async Task OnInitializedAsync()
+        public int TotalCount => CountryList.Count;
+        public int FilteredCount => FilteredCountries.Count;
+
+        private List<CountryModel> FilteredCountries =>
+            CountryList.Where(MatchesFilter).ToList();
+
+        protected override async Task OnInitializedAsync() => await LoadAsync();
+
+        private async Task LoadAsync()
         {
             _isLoading = true;
+            _error = null;
 
-            this.CountryList = await CountryService.GetCountryListAsync();
-
-            _isLoading = false;
-
-            StateHasChanged();
+            try
+            {
+                CountryList = await CountryService.GetCountryListAsync(_cts.Token);
+            }
+            catch (CountryApiException ex)
+            {
+                _error = ex.Message;
+            }
+            catch (OperationCanceledException)
+            {
+                // user navigated away, nothing to show
+            }
+            finally
+            {
+                _isLoading = false;
+            }
         }
 
-        private void OnSearchChanged(string text)
+        private void OnSearchChanged(string? text)
             => _searchText = text ?? string.Empty;
 
         private async Task OnCardClicked(string countryName)
@@ -41,15 +60,20 @@ namespace WorldExplorer.Web.Pages
 
         private bool MatchesFilter(CountryModel c)
         {
-            //var matchesSearch = string.IsNullOrWhiteSpace(_searchText) ||
-            //    c.Names?.Common?.Contains(_searchText, StringComparison.OrdinalIgnoreCase) == true ||
-            //    c.Capitals?.Any(cap => cap.Contains(_searchText, StringComparison.OrdinalIgnoreCase)) == true;
+            var matchesSearch = string.IsNullOrWhiteSpace(_searchText) ||
+                c.Names.Common.Contains(_searchText, StringComparison.OrdinalIgnoreCase) ||
+                c.Capitals.Any(cap => cap.Name.Contains(_searchText, StringComparison.OrdinalIgnoreCase));
 
-            //var matchesRegion = _selectedRegion == Region.All ||
-            //    c.Region == _selectedRegion.ToString();
+            var matchesRegion = _selectedRegion == Region.All ||
+                string.Equals(c.Region, _selectedRegion.ToString(), StringComparison.OrdinalIgnoreCase);
 
-            //return matchesSearch && matchesRegion;
-            return true;
+            return matchesSearch && matchesRegion;
+        }
+
+        public void Dispose()
+        {
+            _cts.Cancel();
+            _cts.Dispose();
         }
     }
 }

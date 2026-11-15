@@ -47,6 +47,13 @@
                 </div>
             }
         }
+        else if (_error is not null)
+        {
+            <div class="error-state">
+                <p>@_error</p>
+                <button @onclick="LoadAsync">Retry</button>
+            </div>
+        }
         else if (FilteredCountries is null || !FilteredCountries.Any())
         {
             <div class="empty-state">
@@ -73,6 +80,7 @@
                              OnClick="() => OnCardClicked(country.Names?.Common ?? string.Empty)" />
             }
         }
+
         <CountryModal @ref="_modal" />
     </div>
     <ScrollToTop />

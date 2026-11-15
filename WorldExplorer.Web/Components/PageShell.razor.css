@@ -1,0 +1,70 @@
+﻿/* Layout and spacing shared by every page. Colors come from the global theme tokens. */
+
+.shell {
+    max-width: var(--shell-max, 1120px);
+    margin: 0 auto;
+    padding: 1.75rem 1.5rem 4rem;
+}
+
+.shell-back {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    margin-bottom: 1.25rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+    .shell-back svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .shell-back:hover {
+        color: var(--accent);
+    }
+
+    .shell-back:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 4px;
+    }
+
+.shell-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.shell-heading h1 {
+    margin: 0;
+    font-family: "Bricolage Grotesque", "Figtree", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text-heading);
+}
+
+.shell-heading p {
+    margin: .5rem 0 0;
+    max-width: 60ch;
+    color: var(--text-muted);
+}
+
+.shell-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+}
+
+@media (max-width: 640px) {
+    .shell {
+        padding: 1.25rem 1rem 3rem;
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using WorldExplorer.Web.Pages;
 using WorldExplorer.Web.Services.Currency;
 
 namespace WorldExplorer.Web.Components.Currency
@@ -6,6 +7,7 @@ namespace WorldExplorer.Web.Components.Currency
     public partial class CurrencyConverter
     {
         [Inject] private ICurrencyService CurrencyService { get; set; } = default!;
+        [Inject] private ILogger<CurrencyConverter> Logger { get; set; } = default!;
 
         [Parameter] public List<CurrencyModel> Currencies { get; set; } = new();
         [Parameter] public EventCallback<CurrencyPair> OnConverted { get; set; }
@@ -18,7 +20,7 @@ namespace WorldExplorer.Web.Components.Currency
         private string _toCurrency = "PHP";
         private decimal _amount = 1;
         private decimal _baseRate = 0;
-        private ConversionResult? _conversionResult;
+        private ExchangeRateResponse? _conversionResult;
         private bool _isConverting = true;
 
         protected override async Task OnInitializedAsync()
@@ -29,35 +31,57 @@ namespace WorldExplorer.Web.Components.Currency
 
         private async Task ConvertAsync()
         {
-            var currencyPair = new CurrencyPair { From = _fromCurrency, To = _toCurrency };
-            
+            var currencyPair = new CurrencyPair
+            {
+                From = _fromCurrency,
+                To = _toCurrency
+            };
+
             _isConverting = true;
-            if (_fromCurrency == _toCurrency)
+
+            try
             {
-                _conversionResult = new ConversionResult
+                if (_fromCurrency == _toCurrency)
                 {
-                    Amount = _amount,
-                    Base = _fromCurrency,
-                    Date = DateTime.Today.ToString("yyyy-MM-dd"),
-                    Rates = new Dictionary<string, decimal> { { _toCurrency, _amount } }
-                };
-                _baseRate = 1;
-                _isConverting = false;
-                await OnConverted.InvokeAsync(null);
-                return;
+                    _conversionResult = new ExchangeRateResponse
+                    {
+                        Amount = _amount,
+                        Base = _fromCurrency,
+                        Date = DateTime.Today.ToString("yyyy-MM-dd"),
+                        Rates = new Dictionary<string, decimal>
+                {
+                    { _toCurrency, _amount }
+                }
+                    };
+
+                    _baseRate = 1;
+
+                    await OnConverted.InvokeAsync(null);
+                    return;
+                }
+
+                var result = await CurrencyService.ConvertAsync(
+                    _fromCurrency,
+                    _toCurrency,
+                    BaseAmount);
+
+                if (result is not null && result.Rates.TryGetValue(_toCurrency, out var rate))
+                {
+                    _baseRate = rate;
+                    result.Rates[_toCurrency] = Math.Round(_baseRate * _amount, DecimalPlaces);
+                    _conversionResult = result;
+                }
+
+                await OnConverted.InvokeAsync(currencyPair);
             }
-
-            var result = await CurrencyService.ConvertAsync(_fromCurrency, _toCurrency, BaseAmount);
-
-            if (result is not null)
+            catch (Exception ex)
             {
-                _baseRate = result.Rates[_toCurrency];
-                result.Rates[_toCurrency] = Math.Round(_baseRate * _amount, DecimalPlaces);
-                _conversionResult = result;
+                Logger.LogWarning(ex, "Currency conversion failed for {From}/{To}", currencyPair.From, currencyPair.To);
             }
-
-            _isConverting = false;
-            await OnConverted.InvokeAsync(currencyPair);
+            finally
+            {
+                _isConverting = false;
+            }
         }
 
         private void SwapCurrencies()
@@ -79,7 +103,7 @@ namespace WorldExplorer.Web.Components.Currency
 
         private void ResetConversion()
         {
-            _conversionResult = new ConversionResult
+            _conversionResult = new ExchangeRateResponse
             {
                 Amount = _amount,
                 Base = _fromCurrency,

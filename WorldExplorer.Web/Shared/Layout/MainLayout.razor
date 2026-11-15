@@ -5,23 +5,26 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<a href="#main-content" class="skip-link">Skip to content</a>
 
-    <main>
-        <div class="top-bar">
+<div class="page">
+    <aside class="app-sidebar">
+        <NavMenu />
+    </aside>
+
+    <div class="page-column">
+        <header class="top-bar">
             <ThemeToggleButton />
-        </div>
-        <div>
+        </header>
+
+        <main id="main-content" tabindex="-1">
             @Body
-        </div>
-    </main>
+        </main>
+    </div>
 </div>
 
-<div id="blazor-error-ui" data-nosnippet>
+<div id="blazor-error-ui" data-nosnippet role="alert">
     An unhandled error has occurred.
     <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
+    <button type="button" class="dismiss" aria-label="Dismiss error">&#10005;</button>
 </div>

@@ -1,0 +1,54 @@
+﻿/* Colors come from the global theme tokens in app.css. */
+
+.skeleton-root ::deep .skeleton-card {
+    width: 100%;
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    background: var(--card-bg);
+}
+
+.skeleton-root ::deep .skeleton-field {
+    border-radius: 12px;
+}
+
+.skeleton-root ::deep .skeleton-block {
+    border-radius: 6px;
+}
+
+.skeleton-root ::deep .skeleton-result {
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    background: var(--nav-active-bg);
+}
+
+.skeleton-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: .5rem;
+    height: 280px;
+    padding: 0 .25rem;
+}
+
+.skeleton-root ::deep .skeleton-bar {
+    flex: 1;
+    border-radius: 6px 6px 0 0;
+}
+
+/* Screen-reader-only text */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton-root ::deep .mud-skeleton {
+        animation: none !important;
+    }
+}

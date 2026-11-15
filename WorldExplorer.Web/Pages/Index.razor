@@ -1,0 +1,262 @@
+﻿
+@page "/"
+@namespace WorldExplorer.Web.Pages
+
+<PageShell DocumentTitle="WorldExplorer — Facts and currencies for every country" ShowHeader="false" MaxWidth="1120px">
+
+    <div class="home">
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-text">
+                <span class="eyebrow">
+                    <span class="eyebrow-dot"></span>
+                    EXPLORE THE WORLD
+                </span>
+
+                <h1>
+                    Discover the world,
+                    <span>one country at a time.</span>
+                </h1>
+
+                <p class="lead">
+                    Explore countries, discover fascinating facts, and convert currencies.
+                    Everything you need to know about our world, in one place.
+                </p>
+
+                <div class="actions">
+                    <a href="/countries" class="btn btn-primary">
+                        Explore countries
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </a>
+
+                    <a href="/currencies" class="btn btn-secondary">
+                        Convert currency
+                    </a>
+                </div>
+
+                <div class="hero-note">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 8v4l2.5 2.5" />
+                    </svg>
+                    <span>Curiosity starts here.</span>
+                </div>
+            </div>
+
+            <aside class="hero-card" aria-label="Featured country: Japan">
+                <div class="hero-card-decoration" aria-hidden="true">
+                    <svg class="graticule" viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="92" />
+                        <ellipse cx="100" cy="100" rx="46" ry="92" />
+                        <ellipse cx="100" cy="100" rx="82" ry="92" />
+                        <line x1="8" y1="100" x2="192" y2="100" />
+                        <path d="M16 62h168M16 138h168" />
+                    </svg>
+                </div>
+
+                <div class="hero-card-top">
+                    <span class="spotlight-label">COUNTRY SPOTLIGHT</span>
+                    <span class="spotlight-dot"></span>
+                </div>
+
+                <div class="country-preview">
+                    <span class="country-flag" aria-hidden="true">🇯🇵</span>
+                    <div>
+                        <span class="country-region">EAST ASIA</span>
+                        <h2>Japan</h2>
+                    </div>
+                </div>
+
+                <p class="country-description">
+                    A fascinating blend of ancient traditions and modern innovation.
+                </p>
+
+                <dl class="country-details">
+                    <div>
+                        <dt>Capital</dt>
+                        <dd>Tokyo</dd>
+                    </div>
+                    <div>
+                        <dt>Currency</dt>
+                        <dd>Yen (JPY)</dd>
+                    </div>
+                    <div>
+                        <dt>Language</dt>
+                        <dd>Japanese</dd>
+                    </div>
+                    <div>
+                        <dt>Region</dt>
+                        <dd>Asia</dd>
+                    </div>
+                </dl>
+
+                <a href="/countries" class="card-link">
+                    Discover countries
+                    <span aria-hidden="true">→</span>
+                </a>
+            </aside>
+        </section>
+
+        <!-- FACTS -->
+        <section class="facts" aria-label="WorldExplorer at a glance">
+            <div class="fact">
+                <strong>250+</strong>
+                <span>Countries and territories</span>
+            </div>
+
+            <div class="fact">
+                <strong>7</strong>
+                <span>Continents to explore</span>
+            </div>
+
+            <div class="fact">
+                <strong>8B+</strong>
+                <span>People around the world</span>
+            </div>
+        </section>
+
+        <!-- EXPLORE -->
+        <section class="tools">
+            <div class="section-heading">
+                <div>
+                    <span class="section-eyebrow">EXPLORE MORE</span>
+                    <h2>Your world, at a glance.</h2>
+                    <p>Start exploring with the tools available on WorldExplorer.</p>
+                </div>
+            </div>
+
+            <div class="tools-grid">
+
+                <a href="/countries" class="tool tool-countries">
+                    <div class="tool-top">
+                        <div class="tool-icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="2" y1="12" x2="22" y2="12" />
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                            </svg>
+                        </div>
+
+                        <span class="tool-arrow" aria-hidden="true">↗</span>
+                    </div>
+
+                    <div class="tool-content">
+                        <span class="tool-label">DISCOVER</span>
+                        <h3>Countries</h3>
+                        <p>
+                            Discover capitals, populations, currencies, languages,
+                            regions and flags from countries around the world.
+                        </p>
+                    </div>
+
+                    <span class="tool-cta">Explore countries <span aria-hidden="true">→</span></span>
+                </a>
+
+                <a href="/currencies" class="tool tool-currencies">
+                    <div class="tool-top">
+                        <div class="tool-icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <line x1="12" y1="1" x2="12" y2="23" />
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                            </svg>
+                        </div>
+
+                        <span class="tool-arrow" aria-hidden="true">↗</span>
+                    </div>
+
+                    <div class="tool-content">
+                        <span class="tool-label">EXCHANGE</span>
+                        <h3>Currencies</h3>
+                        <p>
+                            Convert between currencies, check exchange rates
+                            and explore the value of money across the world.
+                        </p>
+                    </div>
+
+                    <span class="tool-cta">Explore currencies <span aria-hidden="true">→</span></span>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- COMING SOON -->
+        <section class="next">
+            <div class="next-intro">
+                <span class="section-eyebrow">WHAT'S AHEAD</span>
+                <h2>There's more to discover.</h2>
+                <p>
+                    WorldExplorer is growing. More topics and discoveries
+                    are on the way.
+                </p>
+            </div>
+
+            <div class="next-list">
+                <div class="next-item">
+                    <div class="next-item-icon">01</div>
+                    <div class="next-item-content">
+                        <strong>Geography</strong>
+                        <span>Mountains, rivers, oceans and deserts</span>
+                    </div>
+                    <span class="coming-label">Coming soon</span>
+                </div>
+
+                <div class="next-item">
+                    <div class="next-item-icon">02</div>
+                    <div class="next-item-content">
+                        <strong>Universe</strong>
+                        <span>Planets, stars, galaxies and space exploration</span>
+                    </div>
+                    <span class="coming-label">Coming soon</span>
+                </div>
+
+                <div class="next-item">
+                    <div class="next-item-icon">03</div>
+                    <div class="next-item-content">
+                        <strong>Nature</strong>
+                        <span>Wildlife, ecosystems and biodiversity</span>
+                    </div>
+                    <span class="coming-label">Coming soon</span>
+                </div>
+
+                <div class="next-item">
+                    <div class="next-item-icon">04</div>
+                    <div class="next-item-content">
+                        <strong>History</strong>
+                        <span>Civilizations and events that shaped our world</span>
+                    </div>
+                    <span class="coming-label">Coming soon</span>
+                </div>
+
+                <div class="next-item">
+                    <div class="next-item-icon">05</div>
+                    <div class="next-item-content">
+                        <strong>Statistics</strong>
+                        <span>Global rankings, economics and society</span>
+                    </div>
+                    <span class="coming-label">Coming soon</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CLOSING CTA -->
+        <section class="closing">
+            <div class="closing-content">
+                <span class="section-eyebrow">YOUR NEXT DISCOVERY</span>
+                <h2>The world is waiting to be explored.</h2>
+                <p>Choose a country and see what you can discover.</p>
+            </div>
+
+            <a href="/countries" class="btn btn-primary">
+                Start exploring
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
+        </section>
+
+    </div>
+
+</PageShell>

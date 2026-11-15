@@ -1,160 +1,199 @@
 
+/* ---------- Sidebar ---------- */
+
 .sidebar {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
-    background-color: var(--sidebar-bg);
-    border-right: 1px solid var(--sidebar-border);
-    padding: 0;
-    position: relative;
-    width: 240px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    background: var(--sidebar-bg);
+    border-bottom: 1px solid var(--sidebar-border);
+    font-family: "Figtree", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    transition: background-color .2s, border-color .2s;
 }
+
+/* ---------- Brand ---------- */
 
 .sidebar-brand {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 20px 18px;
-    border-bottom: 1px solid var(--sidebar-border);
+    gap: .65rem;
+    height: 3.75rem;
+    padding: 0 1.25rem;
+    color: var(--text-heading);
     text-decoration: none;
+    transition: color .15s;
 }
 
+    .sidebar-brand:hover {
+        color: var(--accent);
+    }
+
+    .sidebar-brand:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: -2px;
+    }
+
 .brand-icon {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     color: var(--accent);
     flex-shrink: 0;
 }
 
 .brand-name {
-    font-size: 15px;
+    font-family: "Bricolage Grotesque", "Figtree", "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.25rem;
     font-weight: 700;
-    color: var(--text-heading);
-    letter-spacing: -0.2px;
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    letter-spacing: -.02em;
 }
 
-.nav-toggle-input {
-    display: none;
+/* ---------- Navigation ---------- */
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+    padding: .5rem .75rem 1.5rem;
 }
-
-.nav-toggle-label {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    cursor: pointer;
-    color: var(--text-muted);
-    margin: 12px 18px;
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
-}
-
-    .nav-toggle-label:hover {
-        background-color: var(--nav-hover-bg);
-    }
-
-    .nav-toggle-label svg {
-        width: 18px;
-        height: 18px;
-    }
 
 .nav-section-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-placeholder);
-    padding: 18px 18px 6px;
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    padding: .75rem .75rem .4rem;
+    font-size: .85rem;
+    color: var(--text-muted);
 }
 
-.nav-scrollable {
-    flex: 1;
-    overflow-y: auto;
-    padding: 4px 10px;
-}
-
-::deep .nav-link {
+.nav-link {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 9px 12px;
-    border-radius: 8px;
-    color: var(--text-muted);
-    font-size: 14px;
+    gap: .8rem;
+    height: 2.75rem;
+    padding: 0 .75rem;
+    border-radius: 10px;
+    color: var(--text-body);
     font-weight: 500;
-    font-family: 'Segoe UI', system-ui, sans-serif;
     text-decoration: none;
-    transition: background-color 0.15s ease, color 0.15s ease;
-    margin-bottom: 2px;
+    transition: background-color .15s, color .15s;
 }
 
-    ::deep .nav-link:hover {
-        background-color: var(--nav-hover-bg);
-        color: var(--text-heading);
-    }
-
-    ::deep .nav-link.active {
-        background-color: var(--nav-active-bg);
-        color: var(--accent);
-    }
-
-    ::deep .nav-link svg {
-        width: 16px;
-        height: 16px;
+    .nav-link svg {
+        width: 20px;
+        height: 20px;
         flex-shrink: 0;
     }
 
-@media (max-width: 640px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
+    .nav-link:hover {
+        background: var(--nav-hover-bg);
+        color: var(--text-heading);
     }
 
+    .nav-link:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+    }
+
+    .nav-link.active {
+        background: var(--nav-active-bg);
+        color: var(--accent);
+        font-weight: 600;
+    }
+
+        .nav-link.active svg {
+            color: var(--accent);
+        }
+
+        .nav-link.active::before {
+            content: "";
+            position: absolute;
+            left: -.75rem;
+            top: .5rem;
+            bottom: .5rem;
+            width: 4px;
+            border-radius: 0 4px 4px 0;
+            background: var(--accent);
+        }
+
+/* ---------- Mobile Toggle ---------- */
+
+.nav-toggle-input {
+    position: absolute;
+    top: .6rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.nav-toggle-label {
+    position: absolute;
+    top: .6rem;
+    right: 1rem;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 10px;
+    color: var(--text-heading);
+    background: var(--sidebar-bg);
+    border: 1px solid var(--search-border);
+    transition: background-color .15s, border-color .15s;
+}
+
+    .nav-toggle-label svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .nav-toggle-label:hover {
+        background: var(--nav-hover-bg);
+    }
+
+.nav-toggle-input:focus-visible + .nav-toggle-label {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ---------- Mobile Navigation ---------- */
+
+.nav-scrollable {
+    display: none;
+}
+
+.nav-toggle-input:checked ~ .nav-scrollable {
+    display: block;
+}
+
+/* ---------- Desktop ---------- */
+
+@media (min-width: 641px) {
+    .nav-toggle-input,
     .nav-toggle-label {
-        display: flex;
+        display: none;
     }
 
     .nav-scrollable {
-        display: none;
-        padding: 4px 10px 12px;
+        display: block;
+        overflow-y: auto;
+        height: calc(100vh - 3.75rem);
     }
 
-    .nav-toggle-input:checked ~ .nav-scrollable {
-        display: block;
+    .sidebar {
+        border-bottom: 0;
+        border-right: 1px solid var(--sidebar-border);
     }
 }
-@media (max-width: 640px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background-color: var(--sidebar-bg);
-    }
 
+/* ---------- Accessibility ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .sidebar,
+    .sidebar-brand,
+    .nav-link,
     .nav-toggle-label {
-        display: flex;
-    }
-
-    .nav-scrollable {
-        display: none;
-        padding: 4px 10px 12px;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        z-index: 99;
-        background-color: var(--sidebar-bg);
-        border-bottom: 1px solid var(--sidebar-border);
-        box-shadow: 0 8px 24px var(--card-shadow);
-    }
-
-    .nav-toggle-input:checked ~ .nav-scrollable {
-        display: block;
+        transition: none;
     }
 }

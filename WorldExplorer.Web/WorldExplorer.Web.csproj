@@ -16,4 +16,9 @@
     <ProjectReference Include="..\WorldExplorer.Domain\WorldExplorer.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Integrations\Frankfurter\Mapping\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>

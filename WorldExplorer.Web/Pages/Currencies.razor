@@ -3,14 +3,40 @@
 @attribute [StreamRendering]
 @namespace WorldExplorer.Web.Pages
 
-<PageTitle>Currency Converter</PageTitle>
+@using Size = MudBlazor.Size
 
-@if (_isLoadingCurrencies)
-{
-    <CurrenciesPageSkeleton />
-}
-else
-{
-    <CurrencyConverter Currencies="_currencies" OnConverted="HandleConverted" OnReset="HandleReset" />
-    <CurrencyChart @ref="_chart" />
-}
+<PageShell Title=""
+           Description="">
+
+    @if (_isLoadingCurrencies)
+    {
+        <CurrenciesPageSkeleton />
+    }
+    else if (_loadError is not null)
+    {
+        <MudAlert Severity="Severity.Error">
+            @_loadError
+            <MudButton Size="Size.Small" OnClick="RetryLoadAsync">Retry</MudButton>
+        </MudAlert>
+    }
+    else
+    {
+        <MudStack Spacing="6">
+            <CurrencyConverter Currencies="_currencies"
+                               OnConverted="HandleConverted"
+                               OnReset="HandleReset" />
+
+            @if (_chartError is not null)
+            {
+                <MudAlert Severity="Severity.Warning"
+                          ShowCloseIcon="true"
+                          CloseIconClicked="DismissChartError">
+                    @_chartError
+                </MudAlert>
+            }
+
+            <CurrencyChart @ref="_chart" />
+        </MudStack>
+    }
+
+</PageShell>

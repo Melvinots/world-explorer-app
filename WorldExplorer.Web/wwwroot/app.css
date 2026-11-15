@@ -1,34 +1,6 @@
-/* app.css */
 
-:root[data-theme="dark"] {
-    --bg-body: #1e2130;
-    --bg-primary: #1e2130;
-    --sidebar-bg: #181b27;
-    --sidebar-border: #2a2d3e;
-    --card-bg: #252837;
-    --search-bg: #2a2d3e;
-    --card-border: #313449;
-    --sidebar-border: #2a2d3e;
-    --search-border: #3a3d52;
-    --code-bg: #313449;
-    --badge-bg: #313449;
-    --nav-hover-bg: #2a2d3e;
-    --nav-active-bg: rgba(59, 158, 255, 0.12);
-    --text-heading: #f0f2ff;
-    --text-muted: #8b90a8;
-    --text-body: #c8cbe0;
-    --text-placeholder: #5a5f78;
-    --accent: #3b9eff;
-    --accent-glow: rgba(59, 158, 255, 0.12);
-    --card-shadow: rgba(0, 0, 0, 0.2);
-    --search-icon: #6b7094;
-    --toggle-icon: #f5c542;
-    --accent-glow: rgba(59, 158, 255, 0.35);
-    --orb-primary: #1a7fd4;
-    --orb-secondary: #9333ea;
-    --topbar-bg: rgba(30, 33, 48, 0.75);
-}
-
+/* Light is the default, so the page is never unstyled before data-theme is set */
+:root,
 :root[data-theme="light"] {
     --bg-body: #ffffff;
     --bg-primary: #ffffff;
@@ -37,9 +9,9 @@
     --text-body: #2a2d3e;
     --text-placeholder: #9da3b4;
     --accent: #1a7fd4;
-    --accent-glow: rgba(26, 127, 212, 0.12);
+    --on-accent: #ffffff; /* text/icons placed on top of --accent */
+    --accent-glow: rgba(26, 127, 212, 0.25);
     --search-bg: #f0f2f8;
-    --sidebar-border: #e0e4f0;
     --search-border: #d0d4e8;
     --search-icon: #8b90a8;
     --sidebar-bg: #f8f9ff;
@@ -51,13 +23,51 @@
     --card-shadow: rgba(0, 0, 0, 0.08);
     --code-bg: #eceef8;
     --badge-bg: #eceef8;
-    --search-icon: #8b90a8;
     --toggle-icon: #4a90d9;
-    --accent-glow: rgba(26, 127, 212, 0.25);
     --orb-primary: #1a7fd4;
     --orb-secondary: #9333ea;
     --topbar-bg: rgba(255, 255, 255, 0.75);
+    /* Home page hero card */
+    --hero-card-bg: #0f3a63;
+    --hero-card-text: #ffffff;
+    --hero-card-dim: #a9c8e6;
+    --hero-card-line: rgba(255, 255, 255, 0.16);
+    --hero-card-link: #f5c542;
 }
+
+    :root[data-theme="dark"] {
+        --bg-body: #1e2130;
+        --bg-primary: #1e2130;
+        --text-heading: #f0f2ff;
+        --text-muted: #8b90a8;
+        --text-body: #c8cbe0;
+        --text-placeholder: #5a5f78;
+        --accent: #3b9eff;
+        --on-accent: #0b1220;
+        --accent-glow: rgba(59, 158, 255, 0.35);
+        --search-bg: #2a2d3e;
+        --search-border: #3a3d52;
+        --search-icon: #6b7094;
+        --sidebar-bg: #181b27;
+        --sidebar-border: #2a2d3e;
+        --nav-hover-bg: #2a2d3e;
+        --nav-active-bg: rgba(59, 158, 255, 0.12);
+        --card-bg: #252837;
+        --card-border: #313449;
+        --card-shadow: rgba(0, 0, 0, 0.2);
+        --code-bg: #313449;
+        --badge-bg: #313449;
+        --toggle-icon: #f5c542;
+        --orb-primary: #1a7fd4;
+        --orb-secondary: #9333ea;
+        --topbar-bg: rgba(30, 33, 48, 0.75);
+        /* Home page hero card */
+        --hero-card-bg: #16324f;
+        --hero-card-text: #f0f2ff;
+        --hero-card-dim: #8fb4d6;
+        --hero-card-line: rgba(255, 255, 255, 0.14);
+        --hero-card-link: #f5c542;
+    }
 
 /* App loading screen */
 #app-loading {
