@@ -40,6 +40,11 @@ builder.Services.AddHttpClient<ICurrencyRepository, FrankfurterRepository>(clien
     client.BaseAddress = new Uri(builder.Configuration["Frankfurter:BaseUrl"]!);
 });
 
+var apiKey = builder.Configuration["RestCountries:ApiKey"];
+
+Console.WriteLine(
+    $"REST Countries API key loaded: {!string.IsNullOrWhiteSpace(apiKey)}"
+);
 
 // Switch to DB later — only change this one line
 //builder.Services.AddScoped<ICountryRepository, CountryDbRepository>();
