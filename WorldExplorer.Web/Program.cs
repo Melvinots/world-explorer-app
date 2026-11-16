@@ -31,13 +31,13 @@ builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 builder.Services.AddScoped<ITripPlannerService, TripPlannerService>();
 builder.Services.AddHttpClient<ICountryRepository, RestCountriesRepository>(client =>
 {
-    client.BaseAddress = new Uri("https://api.restcountries.com/countries/v5");
+    client.BaseAddress = new Uri(builder.Configuration["RestCountries:BaseUrl"]!);
     client.DefaultRequestHeaders.Authorization =
         new AuthenticationHeaderValue("Bearer", builder.Configuration["RestCountries:ApiKey"]);
 });
 builder.Services.AddHttpClient<ICurrencyRepository, FrankfurterRepository>(client =>
 {
-    client.BaseAddress = new Uri("https://api.frankfurter.dev/v1/");
+    client.BaseAddress = new Uri(builder.Configuration["Frankfurter:BaseUrl"]!);
 });
 
 
